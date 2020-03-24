@@ -5,7 +5,6 @@ coverage
 .idea
 tmp/
 lib
-es
 coverage
 
 dev.html
