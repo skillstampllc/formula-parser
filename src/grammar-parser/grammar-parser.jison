@@ -17,6 +17,7 @@
 [0-9]+                                                                                          {return 'NUMBER';}
 '['(.*)?']'                                                                                     {return 'ARRAY';}
 "&"                                                                                             {return '&';}
+"|"                                                                                             {return '|';}
 " "                                                                                             {return ' ';}
 [.]                                                                                             {return 'DECIMAL';}
 ":"                                                                                             {return ':';}
@@ -45,6 +46,8 @@
 
 /* operator associations and precedence (low-top, high-bottom) */
 %left '='
+%left '||'
+%left '&&'
 %left '<=' '>=' '<>' 'NOT' '||'
 %left '>' '<'
 %left '+' '-'
@@ -91,6 +94,12 @@ expression
     }
   | '{' expseq '}' {
       $$ = $2
+    }
+  | expression '|' '|' expression {
+      $$ = yy.evaluateByOperator('||', [$1, $4]);
+    }
+ | expression '&' '&' expression {
+      $$ = yy.evaluateByOperator('&&', [$1, $4]);
     }
   | expression '<' '=' expression {
       $$ = yy.evaluateByOperator('<=', [$1, $4]);
