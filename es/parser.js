@@ -50,6 +50,14 @@ var Parser = function (_Emitter) {
     _this.functions = Object.create(null);
 
     _this.setVariable('TRUE', true).setVariable('FALSE', false).setVariable('NULL', null);
+
+    _this.setFunction('IFERROR', function (params) {
+      if (params.length !== 2) {
+        throw Error(ERROR);
+      }
+
+      return params[1];
+    });
     return _this;
   }
 
@@ -64,6 +72,7 @@ var Parser = function (_Emitter) {
   Parser.prototype.parse = function parse(expression) {
     var result = null;
     var error = null;
+    var ex = null;
 
     try {
       if (expression === '') {
@@ -71,7 +80,21 @@ var Parser = function (_Emitter) {
       } else {
         result = this.parser.parse(expression);
       }
-    } catch (ex) {
+    } catch (e) {
+      ex = e;
+      if (expression.includes('IFERROR')) {
+        expression = expression.replace(new RegExp(/IFERROR\((.*),(.*)\)/), 'IFERROR("$1",$2)');
+        try {
+          result = this.parser.parse(expression);
+          if (!result.error) {
+            ex = null;
+          }
+        } catch (e2) {
+          ex = e2;
+        }
+      }
+    }
+    if (ex) {
       var message = errorParser(ex.message);
 
       if (message) {
