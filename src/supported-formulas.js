@@ -384,6 +384,7 @@ const SUPPORTED_FORMULAS = [
   'XOR',
   'YEAR',
   'YEARFRAC',
+  'IFERROR'
 ];
 
 export default SUPPORTED_FORMULAS;

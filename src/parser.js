@@ -1,10 +1,14 @@
 import Emitter from 'tiny-emitter';
 import evaluateByOperator from './evaluate-by-operator/evaluate-by-operator';
-import {Parser as GrammarParser} from './grammar-parser/grammar-parser';
-import {trimEdges} from './helper/string';
-import {toNumber, invertNumber} from './helper/number';
-import errorParser, {isValidStrict as isErrorValid, ERROR, ERROR_NAME} from './error';
-import {extractLabel, toLabel} from './helper/cell';
+import { Parser as GrammarParser } from './grammar-parser/grammar-parser';
+import { trimEdges } from './helper/string';
+import { toNumber, invertNumber } from './helper/number';
+import errorParser, {
+  isValidStrict as isErrorValid,
+  ERROR,
+  ERROR_NAME
+} from './error';
+import { extractLabel, toLabel } from './helper/cell';
 
 /**
  * @class Parser
@@ -17,20 +21,27 @@ class Parser extends Emitter {
       toNumber,
       trimEdges,
       invertNumber,
-      throwError: (errorName) => this._throwError(errorName),
-      callVariable: (variable) => this._callVariable(variable),
+      throwError: errorName => this._throwError(errorName),
+      callVariable: variable => this._callVariable(variable),
       evaluateByOperator,
       callFunction: (name, params) => this._callFunction(name, params),
-      cellValue: (value) => this._callCellValue(value),
-      rangeValue: (start, end) => this._callRangeValue(start, end),
+      cellValue: value => this._callCellValue(value),
+      rangeValue: (start, end) => this._callRangeValue(start, end)
     };
     this.variables = Object.create(null);
     this.functions = Object.create(null);
 
-    this
-      .setVariable('TRUE', true)
+    this.setVariable('TRUE', true)
       .setVariable('FALSE', false)
       .setVariable('NULL', null);
+
+    this.setFunction('IFERROR', function(params) {
+      if (params.length !== 2) {
+        throw Error(ERROR);
+      }
+
+      return params[1];
+    });
   }
 
   /**
@@ -42,6 +53,7 @@ class Parser extends Emitter {
   parse(expression) {
     let result = null;
     let error = null;
+    let ex = null;
 
     try {
       if (expression === '') {
@@ -49,7 +61,24 @@ class Parser extends Emitter {
       } else {
         result = this.parser.parse(expression);
       }
-    } catch (ex) {
+    } catch (e) {
+      ex = e;
+      if (expression.includes('IFERROR')) {
+        expression = expression.replace(
+          new RegExp(/IFERROR\((.*),(.*)\)/),
+          'IFERROR("$1",$2)'
+        );
+        try {
+          result = this.parser.parse(expression);
+          if (!result.error) {
+            ex = null;
+          }
+        } catch (e2) {
+          ex = e2;
+        }
+      }
+    }
+    if (ex) {
       const message = errorParser(ex.message);
 
       if (message) {
@@ -66,7 +95,7 @@ class Parser extends Emitter {
 
     return {
       error,
-      result,
+      result
     };
   }
 
@@ -103,7 +132,7 @@ class Parser extends Emitter {
   _callVariable(name) {
     let value = this.getVariable(name);
 
-    this.emit('callVariable', name, (newValue) => {
+    this.emit('callVariable', name, newValue => {
       if (newValue !== void 0) {
         value = newValue;
       }
@@ -155,7 +184,7 @@ class Parser extends Emitter {
       value = fn(params);
     }
 
-    this.emit('callFunction', name, params, (newValue) => {
+    this.emit('callFunction', name, params, newValue => {
       if (newValue !== void 0) {
         value = newValue;
       }
@@ -177,7 +206,7 @@ class Parser extends Emitter {
     const [row, column] = extractLabel(label);
     let value = void 0;
 
-    this.emit('callCellValue', {label, row, column}, (_value) => {
+    this.emit('callCellValue', { label, row, column }, _value => {
       value = _value;
     });
 
