@@ -58,6 +58,19 @@ var Parser = function (_Emitter) {
 
       return params[1];
     });
+
+    _this.setFunction('IF', function (params) {
+      if (params.length !== 3) {
+        throw Error(ERROR);
+      }
+      var isTrue = this.parse(params[0]);
+
+      var result = this.parse(params[isTrue && isTrue.result ? 1 : 2]);
+      if (result.error) {
+        throw Error(result.error);
+      }
+      return result.result;
+    }.bind(_this));
     return _this;
   }
 
@@ -86,6 +99,17 @@ var Parser = function (_Emitter) {
         expression = expression.replace(new RegExp(/IFERROR\((.*),(.*)\)/), 'IFERROR("$1",$2)');
         try {
           result = this.parser.parse(expression);
+          if (!result.error) {
+            ex = null;
+          }
+        } catch (e2) {
+          ex = e2;
+        }
+      } else if (expression.includes('IF')) {
+        expression = expression.replace(new RegExp(/IF\((.*),(.*),(.*)\)/), 'IF("$1","$2","$3")');
+        try {
+          result = this.parser.parse(expression);
+
           if (!result.error) {
             ex = null;
           }
