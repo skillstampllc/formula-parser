@@ -1,6 +1,6 @@
 import * as formulajs from '@handsontable/formulajs';
 import SUPPORTED_FORMULAS from './../../supported-formulas';
-import {ERROR_NAME} from './../../error';
+import { ERROR_NAME } from './../../error';
 
 export const SYMBOL = SUPPORTED_FORMULAS;
 

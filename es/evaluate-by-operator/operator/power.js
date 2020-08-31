@@ -1,11 +1,15 @@
 import { toNumber } from './../../helper/number';
 import { ERROR_VALUE } from './../../error';
+import Decimal from 'decimal.js';
 
 export var SYMBOL = '^';
 
 export default function func(exp1, exp2) {
-  var result = Math.pow(toNumber(exp1), toNumber(exp2));
+  if (!Number.isInteger(toNumber(exp2))) {
+    throw Error(ERROR_VALUE);
+  }
 
+  var result = new Decimal(toNumber(exp1)).toPower(toNumber(exp2)).toNumber();
   if (isNaN(result)) {
     throw Error(ERROR_VALUE);
   }
