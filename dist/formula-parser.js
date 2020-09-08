@@ -452,9 +452,7 @@ function toNumber(number) {
       result = 1;
     } else if (number.toLowerCase() === 'false') {
       result = 0;
-    }
-
-    if (number.trim() === '') {
+    } else if (number.trim() === '') {
       result = 0;
     } else {
       result = number.indexOf('.') > -1 ? parseFloat(number) : parseInt(number, 10);
