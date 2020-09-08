@@ -443,13 +443,21 @@ exports.invertNumber = invertNumber;
 function toNumber(number) {
   var result = void 0;
 
-  if (typeof number === "number") {
+  if (typeof number === 'boolean') {
+    result = number ? 1 : 0;
+  } else if (typeof number === 'number') {
     result = number;
-  } else if (typeof number === "string") {
-    if (number.trim() === "") {
+  } else if (typeof number === 'string') {
+    if (number.toLowerCase() === 'true') {
+      result = 1;
+    } else if (number.toLowerCase() === 'false') {
+      result = 0;
+    }
+
+    if (number.trim() === '') {
       result = 0;
     } else {
-      result = number.indexOf(".") > -1 ? parseFloat(number) : parseInt(number, 10);
+      result = number.indexOf('.') > -1 ? parseFloat(number) : parseInt(number, 10);
     }
   } else if (number === null || number === undefined) {
     result = 0;
@@ -17011,7 +17019,7 @@ function func(first) {
 
     var result = rest.reduce(function (acc, value) {
       return new _decimal2['default'](acc).plus(new _decimal2['default'](value)).toNumber();
-    }, first);
+    }, (0, _number.toNumber)(first));
 
     if (isNaN(result)) {
       throw Error(_error.ERROR_VALUE);
@@ -19389,7 +19397,7 @@ function func(first) {
 
     var result = rest.reduce(function (acc, value) {
       return new _decimal2['default'](acc).minus(new _decimal2['default'](value)).toNumber();
-    }, first);
+    }, (0, _number.toNumber)(first));
 
     if (isNaN(result)) {
       throw Error(_error.ERROR_VALUE);
@@ -19434,7 +19442,7 @@ function func(first) {
 
     var result = rest.reduce(function (acc, value) {
       return new _decimal2['default'](acc).mul(new _decimal2['default'](value)).toNumber();
-    }, first);
+    }, (0, _number.toNumber)(first));
 
     if (isNaN(result)) {
       throw Error(_error.ERROR_VALUE);

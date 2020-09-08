@@ -12,7 +12,7 @@ export default function func(first) {
 
     var result = rest.reduce(function (acc, value) {
       return new Decimal(acc).minus(new Decimal(value)).toNumber();
-    }, first);
+    }, toNumber(first));
 
     if (isNaN(result)) {
       throw Error(ERROR_VALUE);
