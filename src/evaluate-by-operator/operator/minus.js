@@ -8,7 +8,7 @@ export default function func(first, ...rest) {
   try {
     const result = rest.reduce((acc, value) => {
       return new Decimal(acc).minus(new Decimal(value)).toNumber();
-    }, first);
+    }, toNumber(first));
 
     if (isNaN(result)) {
       throw Error(ERROR_VALUE);
