@@ -117,7 +117,10 @@ var Parser = function (_Emitter) {
           ex = e2;
         }
       } else if (expression.includes('FORMULATEXT')) {
+        console.log('expression', expression);
         var match = expression.match(/FORMULATEXT\((.*)\)/);
+        console.log('match', match);
+
         if (match && match[1] && typeof match[1] === 'string' && match[1][0] === '=') {
           ex = null;
           result = match[1];

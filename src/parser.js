@@ -107,7 +107,10 @@ class Parser extends Emitter {
           ex = e2;
         }
       } else if (expression.includes('FORMULATEXT')) {
+        console.log('expression', expression);
         let match = expression.match(/FORMULATEXT\((.*)\)/);
+        console.log('match', match);
+
         if (
           match &&
           match[1] &&
