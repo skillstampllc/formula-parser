@@ -116,6 +116,15 @@ var Parser = function (_Emitter) {
         } catch (e2) {
           ex = e2;
         }
+      } else if (expression.includes('FORMULATEXT')) {
+        var match = expression.match(/FORMULATEXT\((.*)\)/);
+        if (match && match[1] && typeof match[1] === 'string' && match[1][0] === '=') {
+          ex = null;
+          result = match[1];
+        } else {
+          ex = null;
+          error = errorParser(ERROR);
+        }
       }
     }
     if (ex) {
