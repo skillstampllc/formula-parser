@@ -127,6 +127,7 @@ const SUPPORTED_FORMULAS = [
   'FLATTEN',
   'FLOOR',
   'FORECAST',
+  'FORMULATEXT',
   'FREQUENCY',
   'FV',
   'FVSCHEDULE',
@@ -384,7 +385,7 @@ const SUPPORTED_FORMULAS = [
   'XOR',
   'YEAR',
   'YEARFRAC',
-  'IFERROR'
+  'IFERROR',
 ];
 
 export default SUPPORTED_FORMULAS;

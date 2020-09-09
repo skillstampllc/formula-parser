@@ -6,7 +6,7 @@ import { toNumber, invertNumber } from './helper/number';
 import errorParser, {
   isValidStrict as isErrorValid,
   ERROR,
-  ERROR_NAME
+  ERROR_NAME,
 } from './error';
 import { extractLabel, toLabel } from './helper/cell';
 
@@ -21,12 +21,12 @@ class Parser extends Emitter {
       toNumber,
       trimEdges,
       invertNumber,
-      throwError: errorName => this._throwError(errorName),
-      callVariable: variable => this._callVariable(variable),
+      throwError: (errorName) => this._throwError(errorName),
+      callVariable: (variable) => this._callVariable(variable),
       evaluateByOperator,
       callFunction: (name, params) => this._callFunction(name, params),
-      cellValue: value => this._callCellValue(value),
-      rangeValue: (start, end) => this._callRangeValue(start, end)
+      cellValue: (value) => this._callCellValue(value),
+      rangeValue: (start, end) => this._callRangeValue(start, end),
     };
     this.variables = Object.create(null);
     this.functions = Object.create(null);
@@ -35,7 +35,7 @@ class Parser extends Emitter {
       .setVariable('FALSE', false)
       .setVariable('NULL', null);
 
-    this.setFunction('IFERROR', function(params) {
+    this.setFunction('IFERROR', function (params) {
       if (params.length !== 2) {
         throw Error(ERROR);
       }
@@ -45,7 +45,7 @@ class Parser extends Emitter {
 
     this.setFunction(
       'IF',
-      function(params) {
+      function (params) {
         if (params.length !== 3) {
           throw Error(ERROR);
         }
@@ -106,6 +106,20 @@ class Parser extends Emitter {
         } catch (e2) {
           ex = e2;
         }
+      } else if (expression.includes('FORMULATEXT')) {
+        let match = expression.match(/FORMULATEXT\((.*)\)/);
+        if (
+          match &&
+          match[1] &&
+          typeof match[1] === 'string' &&
+          match[1][0] === '='
+        ) {
+          ex = null;
+          result = match[1];
+        } else {
+          ex = null;
+          error = errorParser(ERROR);
+        }
       }
     }
     if (ex) {
@@ -125,7 +139,7 @@ class Parser extends Emitter {
 
     return {
       error,
-      result
+      result,
     };
   }
 
@@ -162,7 +176,7 @@ class Parser extends Emitter {
   _callVariable(name) {
     let value = this.getVariable(name);
 
-    this.emit('callVariable', name, newValue => {
+    this.emit('callVariable', name, (newValue) => {
       if (newValue !== void 0) {
         value = newValue;
       }
@@ -214,7 +228,7 @@ class Parser extends Emitter {
       value = fn(params);
     }
 
-    this.emit('callFunction', name, params, newValue => {
+    this.emit('callFunction', name, params, (newValue) => {
       if (newValue !== void 0) {
         value = newValue;
       }
@@ -236,7 +250,7 @@ class Parser extends Emitter {
     const [row, column] = extractLabel(label);
     let value = void 0;
 
-    this.emit('callCellValue', { label, row, column }, _value => {
+    this.emit('callCellValue', { label, row, column }, (_value) => {
       value = _value;
     });
 
