@@ -16559,13 +16559,17 @@ var Parser = function (_Emitter) {
           ex = e2;
         }
       } else if (expression.includes('FORMULATEXT')) {
-        console.log('expression', expression);
         var match = expression.match(/FORMULATEXT\((.*)\)/);
-        console.log('match', match);
 
-        if (match && match[1] && typeof match[1] === 'string' && match[1][0] === '=') {
+        if (match && match[1] && typeof match[1] === 'string') {
+          var paramsFormula = this.getFunction('GETFORMULA') && this.getFunction('GETFORMULA')(match[1]) || null;
           ex = null;
-          result = match[1];
+          result = null;
+          if (paramsFormula && paramsFormula[0] === '=') {
+            result = '\'' + paramsFormula;
+          } else {
+            ex = paramsFormula;
+          }
         } else {
           ex = null;
           error = (0, _error2['default'])(_error.ERROR);
