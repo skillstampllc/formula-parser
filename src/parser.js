@@ -35,17 +35,24 @@ class Parser extends Emitter {
       .setVariable('FALSE', false)
       .setVariable('NULL', null);
 
-    this.setFunction('IFERROR', function (params) {
-      if (params.length !== 2) {
-        throw Error(ERROR);
-      }
-      let result = this.parse(params[0]);
-      if (!result.error) {
-        return result;
-      }
+    this.setFunction(
+      'IFERROR',
+      function (params) {
+        if (params.length !== 2) {
+          throw Error(ERROR);
+        }
+        let result = this.parse(params[0]);
+        if (result && !result.error) {
+          return result.result;
+        }
+        result = this.parse(params[1]);
 
-      return this.parse(params[1]);
-    });
+        if (result.error) {
+          throw Error(result.error);
+        }
+        return result.result;
+      }.bind(this)
+    );
 
     this.setFunction(
       'IF',

@@ -16498,12 +16498,16 @@ var Parser = function (_Emitter) {
         throw Error(_error.ERROR);
       }
       var result = this.parse(params[0]);
-      if (!result.error) {
-        return result;
+      if (result && !result.error) {
+        return result.result;
       }
+      result = this.parse(params[1]);
 
-      return this.parse(params[1]);
-    });
+      if (result.error) {
+        throw Error(result.error);
+      }
+      return result.result;
+    }.bind(_this));
 
     _this.setFunction('IF', function (params) {
       if (params.length !== 3) {
