@@ -16497,8 +16497,12 @@ var Parser = function (_Emitter) {
       if (params.length !== 2) {
         throw Error(_error.ERROR);
       }
+      var result = this.parse(params[0]);
+      if (!result.error) {
+        return result;
+      }
 
-      return params[1];
+      return this.parse(params[1]);
     });
 
     _this.setFunction('IF', function (params) {

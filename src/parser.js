@@ -39,8 +39,12 @@ class Parser extends Emitter {
       if (params.length !== 2) {
         throw Error(ERROR);
       }
+      let result = this.parse(params[0]);
+      if (!result.error) {
+        return result;
+      }
 
-      return params[1];
+      return this.parse(params[1]);
     });
 
     this.setFunction(
