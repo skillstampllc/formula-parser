@@ -2,17 +2,11 @@
   "name": "hot-formula-parser",
   "version": "4.0.0",
   "description": "Formula parser",
-  "main": "./index",
-  "module": "./index.mjs",
-  "jsnext:main": "./index.mjs",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "jsnext:main": "es/index.js",
   "jsdelivr": "dist/formula-parser.min.js",
   "unpkg": "dist/formula-parser.min.js",
-  "exports": {
-    ".": {
-      "import": "./index.mjs",
-      "require": "./index.js"
-    }
-  },
   "scripts": {
     "clean": "rimraf tmp coverage",
     "lint": "eslint src test",
