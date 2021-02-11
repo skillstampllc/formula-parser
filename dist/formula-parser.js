@@ -2,12 +2,12 @@
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
 	else if(typeof define === 'function' && define.amd)
-		define([], factory);
+		define("formulaParser", [], factory);
 	else if(typeof exports === 'object')
 		exports["formulaParser"] = factory();
 	else
 		root["formulaParser"] = factory();
-})(typeof self !== 'undefined' ? self : this, function() {
+})(window, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -46,12 +46,32 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, {
-/******/ 				configurable: false,
-/******/ 				enumerable: true,
-/******/ 				get: getter
-/******/ 			});
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
 /******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
 /******/ 	};
 /******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
@@ -68,6 +88,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
+/******/
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(__webpack_require__.s = 16);
@@ -371,31 +392,40 @@ exports.transpose = function(matrix) {
 
 
 exports.__esModule = true;
+exports["default"] = error;
+exports.isValidStrict = isValidStrict;
+exports.ERROR_VALUE = exports.ERROR_REF = exports.ERROR_NUM = exports.ERROR_NULL = exports.ERROR_NOT_AVAILABLE = exports.ERROR_NAME = exports.ERROR_DIV_ZERO = exports.ERROR = void 0;
 
 var _errors;
 
-exports['default'] = error;
-exports.isValidStrict = isValidStrict;
-var ERROR = exports.ERROR = 'ERROR';
-var ERROR_DIV_ZERO = exports.ERROR_DIV_ZERO = 'DIV/0';
-var ERROR_NAME = exports.ERROR_NAME = 'NAME';
-var ERROR_NOT_AVAILABLE = exports.ERROR_NOT_AVAILABLE = 'N/A';
-var ERROR_NULL = exports.ERROR_NULL = 'NULL';
-var ERROR_NUM = exports.ERROR_NUM = 'NUM';
-var ERROR_REF = exports.ERROR_REF = 'REF';
-var ERROR_VALUE = exports.ERROR_VALUE = 'VALUE';
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var errors = (_errors = {}, _errors[ERROR] = '#ERROR!', _errors[ERROR_DIV_ZERO] = '#DIV/0!', _errors[ERROR_NAME] = '#NAME?', _errors[ERROR_NOT_AVAILABLE] = '#N/A', _errors[ERROR_NULL] = '#NULL!', _errors[ERROR_NUM] = '#NUM!', _errors[ERROR_REF] = '#REF!', _errors[ERROR_VALUE] = '#VALUE!', _errors);
-
+var ERROR = 'ERROR';
+exports.ERROR = ERROR;
+var ERROR_DIV_ZERO = 'DIV/0';
+exports.ERROR_DIV_ZERO = ERROR_DIV_ZERO;
+var ERROR_NAME = 'NAME';
+exports.ERROR_NAME = ERROR_NAME;
+var ERROR_NOT_AVAILABLE = 'N/A';
+exports.ERROR_NOT_AVAILABLE = ERROR_NOT_AVAILABLE;
+var ERROR_NULL = 'NULL';
+exports.ERROR_NULL = ERROR_NULL;
+var ERROR_NUM = 'NUM';
+exports.ERROR_NUM = ERROR_NUM;
+var ERROR_REF = 'REF';
+exports.ERROR_REF = ERROR_REF;
+var ERROR_VALUE = 'VALUE';
+exports.ERROR_VALUE = ERROR_VALUE;
+var errors = (_errors = {}, _defineProperty(_errors, ERROR, '#ERROR!'), _defineProperty(_errors, ERROR_DIV_ZERO, '#DIV/0!'), _defineProperty(_errors, ERROR_NAME, '#NAME?'), _defineProperty(_errors, ERROR_NOT_AVAILABLE, '#N/A'), _defineProperty(_errors, ERROR_NULL, '#NULL!'), _defineProperty(_errors, ERROR_NUM, '#NUM!'), _defineProperty(_errors, ERROR_REF, '#REF!'), _defineProperty(_errors, ERROR_VALUE, '#VALUE!'), _errors);
 /**
  * Return error type based on provided error id.
  *
  * @param {String} type Error type.
  * @returns {String|null} Returns error id.
  */
-function error(type) {
-  var result = void 0;
 
+function error(type) {
+  var result;
   type = (type + '').replace(/#|!|\?/g, '');
 
   if (errors[type]) {
@@ -404,13 +434,14 @@ function error(type) {
 
   return result ? result : null;
 }
-
 /**
  * Check if error type is strict valid with knows errors.
  *
  * @param {String} Error type.
  * @return {Boolean}
  */
+
+
 function isValidStrict(type) {
   var valid = false;
 
@@ -434,6 +465,7 @@ function isValidStrict(type) {
 exports.__esModule = true;
 exports.toNumber = toNumber;
 exports.invertNumber = invertNumber;
+
 /**
  * Convert value into number.
  *
@@ -441,7 +473,7 @@ exports.invertNumber = invertNumber;
  * @returns {*}
  */
 function toNumber(number) {
-  var result = void 0;
+  var result;
 
   if (typeof number === 'boolean') {
     result = number ? 1 : 0;
@@ -463,13 +495,14 @@ function toNumber(number) {
 
   return result;
 }
-
 /**
  * Invert provided number.
  *
  * @param {Number} number
  * @returns {Number} Returns inverted number.
  */
+
+
 function invertNumber(number) {
   return -1 * toNumber(number);
 }
@@ -483,10 +516,10 @@ var __WEBPACK_AMD_DEFINE_RESULT__;;(function (globalScope) {
 
 
   /*
-   *  decimal.js v10.2.0
+   *  decimal.js v10.2.1
    *  An arbitrary-precision Decimal type for JavaScript.
    *  https://github.com/MikeMcl/decimal.js
-   *  Copyright (c) 2019 Michael Mclaughlin <M8ch88l@gmail.com>
+   *  Copyright (c) 2020 Michael Mclaughlin <M8ch88l@gmail.com>
    *  MIT Licence
    */
 
@@ -2208,7 +2241,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;;(function (globalScope) {
       e = mathfloor((e + 1) / 2) - (e < 0 || e % 2);
 
       if (s == 1 / 0) {
-        n = '1e' + e;
+        n = '5e' + e;
       } else {
         n = s.toExponential();
         n = n.slice(0, n.indexOf('e') + 1) + e;
@@ -5333,28 +5366,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;;(function (globalScope) {
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
   // Node and other environments that support module.exports.
-  } else if (typeof module != 'undefined' && module.exports) {
-    if (typeof Symbol == 'function' && typeof Symbol.iterator == 'symbol') {
-      P[Symbol.for('nodejs.util.inspect.custom')] = P.toString;
-      P[Symbol.toStringTag] = 'Decimal';
-    }
-
-    module.exports = Decimal;
-
-  // Browser.
-  } else {
-    if (!globalScope) {
-      globalScope = typeof self != 'undefined' && self && self.self == self ? self : window;
-    }
-
-    noConflict = globalScope.Decimal;
-    Decimal.noConflict = function () {
-      globalScope.Decimal = noConflict;
-      return Decimal;
-    };
-
-    globalScope.Decimal = Decimal;
-  }
+  } else {}
 })(this);
 
 
@@ -9607,11 +9619,7 @@ function serial(date) {
 (function (window, factory) {
     if (true) {
         module.exports = factory();
-    } else if (typeof define === 'function' && define.amd) {
-        define(factory);
-    } else {
-        window.jStat = factory();
-    }
+    } else {}
 })(this, function () {
 var jStat = (function(Math, undefined) {
 
@@ -10451,21 +10459,35 @@ jStat.diff = function diff(arr) {
 
 // ranks of an array
 jStat.rank = function (arr) {
-  var arrlen = arr.length;
-  var sorted = arr.slice().sort(ascNum);
-  var ranks = new Array(arrlen);
-  var val;
-  for (var i = 0; i < arrlen; i++) {
-    var first = sorted.indexOf(arr[i]);
-    var last = sorted.lastIndexOf(arr[i]);
-    if (first === last) {
-      val = first;
+  var i;
+  var distinctNumbers = [];
+  var numberCounts = {};
+  for (i = 0; i < arr.length; i++) {
+    var number = arr[i];
+    if (numberCounts[number]) {
+      numberCounts[number]++;
     } else {
-      val = (first + last) / 2;
+      numberCounts[number] = 1;
+      distinctNumbers.push(number);
     }
-    ranks[i] = val + 1;
   }
-  return ranks;
+
+  var sortedDistinctNumbers = distinctNumbers.sort(ascNum);
+  var numberRanks = {};
+  var currentRank = 1;
+  for (i = 0; i < sortedDistinctNumbers.length; i++) {
+    var number = sortedDistinctNumbers[i];
+    var count = numberCounts[number];
+    var first = currentRank;
+    var last = currentRank + count - 1;
+    var rank = (first + last) / 2;
+    numberRanks[number] = rank;
+    currentRank += count;
+  }
+
+  return arr.map(function (number) {
+    return numberRanks[number];
+  });
 };
 
 
@@ -10922,6 +10944,9 @@ jStat.gammafn = function gammafn(x) {
   var xnum = 0;
   var y = x;
   var i, z, yi, res;
+  if (x > 171.6243769536076) {
+    return Infinity;
+  }
   if (y <= 0) {
     res = y % 1 + 3.6e-16;
     if (res) {
@@ -11361,9 +11386,9 @@ jStat.randg = function randg(shape, n, m) {
 (function(list) {
   for (var i = 0; i < list.length; i++) (function(func) {
     // distribution instance method
-    jStat[func] = function(a, b, c) {
-      if (!(this instanceof arguments.callee))
-        return new arguments.callee(a, b, c);
+    jStat[func] = function f(a, b, c) {
+      if (!(this instanceof f))
+        return new f(a, b, c);
       this._a = a;
       this._b = b;
       this._c = c;
@@ -16237,9 +16262,10 @@ exports.OCT2HEX = function(number, places) {
 
 
 exports.__esModule = true;
+exports["default"] = void 0;
 var SUPPORTED_FORMULAS = ['ABS', 'ACCRINT', 'ACOS', 'ACOSH', 'ACOT', 'ACOTH', 'ADD', 'AGGREGATE', 'AND', 'ARABIC', 'ARGS2ARRAY', 'ASIN', 'ASINH', 'ATAN', 'ATAN2', 'ATANH', 'AVEDEV', 'AVERAGE', 'AVERAGEA', 'AVERAGEIF', 'AVERAGEIFS', 'BASE', 'BESSELI', 'BESSELJ', 'BESSELK', 'BESSELY', 'BETA.DIST', 'BETA.INV', 'BETADIST', 'BETAINV', 'BIN2DEC', 'BIN2HEX', 'BIN2OCT', 'BINOM.DIST', 'BINOM.DIST.RANGE', 'BINOM.INV', 'BINOMDIST', 'BITAND', 'BITLSHIFT', 'BITOR', 'BITRSHIFT', 'BITXOR', 'CEILING', 'CEILINGMATH', 'CEILINGPRECISE', 'CHAR', 'CHISQ.DIST', 'CHISQ.DIST.RT', 'CHISQ.INV', 'CHISQ.INV.RT', 'CHOOSE', 'CHOOSE', 'CLEAN', 'CODE', 'COLUMN', 'COLUMNS', 'COMBIN', 'COMBINA', 'COMPLEX', 'CONCATENATE', 'CONFIDENCE', 'CONFIDENCE.NORM', 'CONFIDENCE.T', 'CONVERT', 'CORREL', 'COS', 'COSH', 'COT', 'COTH', 'COUNT', 'COUNTA', 'COUNTBLANK', 'COUNTIF', 'COUNTIFS', 'COUNTIN', 'COUNTUNIQUE', 'COVARIANCE.P', 'COVARIANCE.S', 'CSC', 'CSCH', 'CUMIPMT', 'CUMPRINC', 'DATE', 'DATEVALUE', 'DAY', 'DAYS', 'DAYS360', 'DB', 'DDB', 'DEC2BIN', 'DEC2HEX', 'DEC2OCT', 'DECIMAL', 'DEGREES', 'DELTA', 'DEVSQ', 'DIVIDE', 'DOLLARDE', 'DOLLARFR', 'E', 'EDATE', 'EFFECT', 'EOMONTH', 'EQ', 'ERF', 'ERFC', 'EVEN', 'EXACT', 'EXP', 'EXPON.DIST', 'EXPONDIST', 'F.DIST', 'F.DIST.RT', 'F.INV', 'F.INV.RT', 'FACT', 'FACTDOUBLE', 'FALSE', 'FDIST', 'FDISTRT', 'FIND', 'FINV', 'FINVRT', 'FISHER', 'FISHERINV', 'FLATTEN', 'FLOOR', 'FORECAST', 'FORMULATEXT', 'FREQUENCY', 'FV', 'FVSCHEDULE', 'GAMMA', 'GAMMA.DIST', 'GAMMA.INV', 'GAMMADIST', 'GAMMAINV', 'GAMMALN', 'GAMMALN.PRECISE', 'GAUSS', 'GCD', 'GEOMEAN', 'GESTEP', 'GROWTH', 'GTE', 'HARMEAN', 'HEX2BIN', 'HEX2DEC', 'HEX2OCT', 'HOUR', 'HTML2TEXT', 'HYPGEOM.DIST', 'HYPGEOMDIST', 'IF', 'IMABS', 'IMAGINARY', 'IMARGUMENT', 'IMCONJUGATE', 'IMCOS', 'IMCOSH', 'IMCOT', 'IMCSC', 'IMCSCH', 'IMDIV', 'IMEXP', 'IMLN', 'IMLOG10', 'IMLOG2', 'IMPOWER', 'IMPRODUCT', 'IMREAL', 'IMSEC', 'IMSECH', 'IMSIN', 'IMSINH', 'IMSQRT', 'IMSUB', 'IMSUM', 'IMTAN', 'INT', 'INTERCEPT', 'INTERVAL', 'IPMT', 'IRR', 'ISBINARY', 'ISBLANK', 'ISEVEN', 'ISLOGICAL', 'ISNONTEXT', 'ISNUMBER', 'ISODD', 'ISODD', 'ISOWEEKNUM', 'ISPMT', 'ISTEXT', 'JOIN', 'KURT', 'LARGE', 'LCM', 'LEFT', 'LEN', 'LINEST', 'LN', 'LOG', 'LOG10', 'LOGEST', 'LOGNORM.DIST', 'LOGNORM.INV', 'LOGNORMDIST', 'LOGNORMINV', 'LOWER', 'LT', 'LTE', 'MATCH', 'MAX', 'MAXA', 'MEDIAN', 'MID', 'MIN', 'MINA', 'MINUS', 'MINUTE', 'MIRR', 'MOD', 'MODE.MULT', 'MODE.SNGL', 'MODEMULT', 'MODESNGL', 'MONTH', 'MROUND', 'MULTINOMIAL', 'MULTIPLY', 'NE', 'NEGBINOM.DIST', 'NEGBINOMDIST', 'NETWORKDAYS', 'NOMINAL', 'NORM.DIST', 'NORM.INV', 'NORM.S.DIST', 'NORM.S.INV', 'NORMDIST', 'NORMINV', 'NORMSDIST', 'NORMSINV', 'NOT', 'NOW', 'NPER', 'NPV', 'NUMBERS', 'OCT2BIN', 'OCT2DEC', 'OCT2HEX', 'ODD', 'OR', 'PDURATION', 'PEARSON', 'PERCENTILEEXC', 'PERCENTILEINC', 'PERCENTRANKEXC', 'PERCENTRANKINC', 'PERMUT', 'PERMUTATIONA', 'PHI', 'PI', 'PMT', 'POISSON.DIST', 'POISSONDIST', 'POW', 'POWER', 'PPMT', 'PROB', 'PRODUCT', 'PROPER', 'PV', 'QUARTILE.EXC', 'QUARTILE.INC', 'QUARTILEEXC', 'QUARTILEINC', 'QUOTIENT', 'RADIANS', 'RAND', 'RANDBETWEEN', 'RANK.AVG', 'RANK.EQ', 'RANKAVG', 'RANKEQ', 'RATE', 'REFERENCE', 'REGEXEXTRACT', 'REGEXMATCH', 'REGEXREPLACE', 'REPLACE', 'REPT', 'RIGHT', 'ROMAN', 'ROUND', 'ROUNDDOWN', 'ROUNDUP', 'ROW', 'ROWS', 'RRI', 'RSQ', 'SEARCH', 'SEC', 'SECH', 'SECOND', 'SERIESSUM', 'SIGN', 'SIN', 'SINH', 'SKEW', 'SKEW.P', 'SKEWP', 'SLN', 'SLOPE', 'SMALL', 'SPLIT', 'SPLIT', 'SQRT', 'SQRTPI', 'STANDARDIZE', 'STDEV.P', 'STDEV.S', 'STDEVA', 'STDEVP', 'STDEVPA', 'STDEVS', 'STEYX', 'SUBSTITUTE', 'SUBTOTAL', 'SUM', 'SUMIF', 'SUMIFS', 'SUMPRODUCT', 'SUMSQ', 'SUMX2MY2', 'SUMX2PY2', 'SUMXMY2', 'SWITCH', 'SYD', 'T', 'T.DIST', 'T.DIST.2T', 'T.DIST.RT', 'T.INV', 'T.INV.2T', 'TAN', 'TANH', 'TBILLEQ', 'TBILLPRICE', 'TBILLYIELD', 'TDIST', 'TDIST2T', 'TDISTRT', 'TIME', 'TIMEVALUE', 'TINV', 'TINV2T', 'TODAY', 'TRANSPOSE', 'TREND', 'TRIM', 'TRIMMEAN', 'TRUE', 'TRUNC', 'UNICHAR', 'UNICODE', 'UNIQUE', 'UPPER', 'VAR.P', 'VAR.S', 'VARA', 'VARP', 'VARPA', 'VARS', 'WEEKDAY', 'WEEKNUM', 'WEIBULL.DIST', 'WEIBULLDIST', 'WORKDAY', 'XIRR', 'XNPV', 'XOR', 'YEAR', 'YEARFRAC', 'IFERROR'];
-
-exports['default'] = SUPPORTED_FORMULAS;
+var _default = SUPPORTED_FORMULAS;
+exports["default"] = _default;
 
 /***/ }),
 /* 15 */
@@ -16255,6 +16281,19 @@ exports.columnLabelToIndex = columnLabelToIndex;
 exports.columnIndexToLabel = columnIndexToLabel;
 exports.extractLabel = extractLabel;
 exports.toLabel = toLabel;
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 /**
  * Convert row label to index.
  *
@@ -16272,18 +16311,19 @@ function rowLabelToIndex(label) {
 
   return result;
 }
-
 /**
  * Convert row index to label.
  *
  * @param {Number} row Row index.
  * @returns {String} Returns row label (eq. '1', '7').
  */
+
+
 function rowIndexToLabel(row) {
   var result = '';
 
   if (row >= 0) {
-    result = '' + (row + 1);
+    result = "".concat(row + 1);
   }
 
   return result;
@@ -16291,13 +16331,13 @@ function rowIndexToLabel(row) {
 
 var COLUMN_LABEL_BASE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 var COLUMN_LABEL_BASE_LENGTH = COLUMN_LABEL_BASE.length;
-
 /**
  * Convert column label to index.
  *
  * @param {String} label Column label (eq. 'ABB', 'CNQ')
  * @returns {Number} Returns -1 if label is not recognized otherwise proper column index.
  */
+
 function columnLabelToIndex(label) {
   var result = 0;
 
@@ -16308,17 +16348,18 @@ function columnLabelToIndex(label) {
       result += Math.pow(COLUMN_LABEL_BASE_LENGTH, j) * (COLUMN_LABEL_BASE.indexOf(label[i]) + 1);
     }
   }
-  --result;
 
+  --result;
   return result;
 }
-
 /**
  * Convert column index to label.
  *
  * @param {Number} column Column index.
  * @returns {String} Returns column label (eq. 'ABB', 'CNQ').
  */
+
+
 function columnIndexToLabel(column) {
   var result = '';
 
@@ -16331,23 +16372,24 @@ function columnIndexToLabel(column) {
 }
 
 var LABEL_EXTRACT_REGEXP = /^([$])?([A-Za-z]+)([$])?([0-9]+)$/;
-
 /**
  * Extract cell coordinates.
  *
  * @param {String} label Cell coordinates (eq. 'A1', '$B6', '$N$98').
  * @returns {Array} Returns an array of objects.
  */
+
 function extractLabel(label) {
   if (typeof label !== 'string' || !LABEL_EXTRACT_REGEXP.test(label)) {
     return [];
   }
 
   var _label$toUpperCase$ma = label.toUpperCase().match(LABEL_EXTRACT_REGEXP),
-      columnAbs = _label$toUpperCase$ma[1],
-      column = _label$toUpperCase$ma[2],
-      rowAbs = _label$toUpperCase$ma[3],
-      row = _label$toUpperCase$ma[4];
+      _label$toUpperCase$ma2 = _slicedToArray(_label$toUpperCase$ma, 5),
+      columnAbs = _label$toUpperCase$ma2[1],
+      column = _label$toUpperCase$ma2[2],
+      rowAbs = _label$toUpperCase$ma2[3],
+      row = _label$toUpperCase$ma2[4];
 
   return [{
     index: rowLabelToIndex(row),
@@ -16359,7 +16401,6 @@ function extractLabel(label) {
     isAbsolute: columnAbs === '$'
   }];
 }
-
 /**
  * Convert row and column indexes into cell label.
  *
@@ -16367,10 +16408,11 @@ function extractLabel(label) {
  * @param {Object} column Object with `index` and `isAbsolute` properties.
  * @returns {String} Returns cell label.
  */
+
+
 function toLabel(row, column) {
   var rowLabel = (row.isAbsolute ? '$' : '') + rowIndexToLabel(row.index);
   var columnLabel = (column.isAbsolute ? '$' : '') + columnIndexToLabel(column.index);
-
   return columnLabel + rowLabel;
 }
 
@@ -16381,26 +16423,21 @@ function toLabel(row, column) {
 "use strict";
 
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 exports.__esModule = true;
-exports.rowLabelToIndex = exports.rowIndexToLabel = exports.columnLabelToIndex = exports.columnIndexToLabel = exports.toLabel = exports.extractLabel = exports.error = exports.Parser = exports.ERROR_VALUE = exports.ERROR_REF = exports.ERROR_NUM = exports.ERROR_NULL = exports.ERROR_NOT_AVAILABLE = exports.ERROR_NAME = exports.ERROR_DIV_ZERO = exports.ERROR = exports.SUPPORTED_FORMULAS = undefined;
 
-var _parser = __webpack_require__(17);
+var _parser = _interopRequireDefault(__webpack_require__(17));
 
-var _parser2 = _interopRequireDefault(_parser);
+exports.Parser = _parser["default"];
 
-var _supportedFormulas = __webpack_require__(14);
+var _supportedFormulas = _interopRequireDefault(__webpack_require__(14));
 
-var _supportedFormulas2 = _interopRequireDefault(_supportedFormulas);
+exports.SUPPORTED_FORMULAS = _supportedFormulas["default"];
 
-var _error = __webpack_require__(2);
+var _error = _interopRequireWildcard(__webpack_require__(2));
 
-var _error2 = _interopRequireDefault(_error);
-
-var _cell = __webpack_require__(15);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-exports.SUPPORTED_FORMULAS = _supportedFormulas2['default'];
+exports.error = _error["default"];
 exports.ERROR = _error.ERROR;
 exports.ERROR_DIV_ZERO = _error.ERROR_DIV_ZERO;
 exports.ERROR_NAME = _error.ERROR_NAME;
@@ -16409,14 +16446,21 @@ exports.ERROR_NULL = _error.ERROR_NULL;
 exports.ERROR_NUM = _error.ERROR_NUM;
 exports.ERROR_REF = _error.ERROR_REF;
 exports.ERROR_VALUE = _error.ERROR_VALUE;
-exports.Parser = _parser2['default'];
-exports.error = _error2['default'];
+
+var _cell = __webpack_require__(15);
+
 exports.extractLabel = _cell.extractLabel;
 exports.toLabel = _cell.toLabel;
 exports.columnIndexToLabel = _cell.columnIndexToLabel;
 exports.columnLabelToIndex = _cell.columnLabelToIndex;
 exports.rowIndexToLabel = _cell.rowIndexToLabel;
 exports.rowLabelToIndex = _cell.rowLabelToIndex;
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 /***/ }),
 /* 17 */
@@ -16425,15 +16469,14 @@ exports.rowLabelToIndex = _cell.rowLabelToIndex;
 "use strict";
 
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 exports.__esModule = true;
+exports["default"] = void 0;
 
-var _tinyEmitter = __webpack_require__(18);
+var _tinyEmitter = _interopRequireDefault(__webpack_require__(18));
 
-var _tinyEmitter2 = _interopRequireDefault(_tinyEmitter);
-
-var _evaluateByOperator = __webpack_require__(19);
-
-var _evaluateByOperator2 = _interopRequireDefault(_evaluateByOperator);
+var _evaluateByOperator = _interopRequireDefault(__webpack_require__(19));
 
 var _grammarParser = __webpack_require__(40);
 
@@ -16441,31 +16484,62 @@ var _string = __webpack_require__(41);
 
 var _number = __webpack_require__(3);
 
-var _error = __webpack_require__(2);
-
-var _error2 = _interopRequireDefault(_error);
+var _error = _interopRequireWildcard(__webpack_require__(2));
 
 var _cell = __webpack_require__(15);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 /**
  * @class Parser
  */
-var Parser = function (_Emitter) {
+var Parser = /*#__PURE__*/function (_Emitter) {
   _inherits(Parser, _Emitter);
 
+  var _super = _createSuper(Parser);
+
   function Parser() {
+    var _this;
+
     _classCallCheck(this, Parser);
 
-    var _this = _possibleConstructorReturn(this, _Emitter.call(this));
-
+    _this = _super.call(this);
     _this.parser = new _grammarParser.Parser();
     _this.parser.yy = {
       toNumber: _number.toNumber,
@@ -16477,7 +16551,7 @@ var Parser = function (_Emitter) {
       callVariable: function callVariable(variable) {
         return _this._callVariable(variable);
       },
-      evaluateByOperator: _evaluateByOperator2['default'],
+      evaluateByOperator: _evaluateByOperator["default"],
       callFunction: function callFunction(name, params) {
         return _this._callFunction(name, params);
       },
@@ -16497,33 +16571,39 @@ var Parser = function (_Emitter) {
       if (params.length !== 2) {
         throw Error(_error.ERROR);
       }
+
       var result = this.parse(params[0]);
+
       if (result && !result.error) {
         return result.result;
       }
+
       result = this.parse(params[1]);
 
       if (result.error) {
         throw Error(result.error);
       }
+
       return result.result;
-    }.bind(_this));
+    }.bind(_assertThisInitialized(_this)));
 
     _this.setFunction('IF', function (params) {
       if (params.length !== 3) {
         throw Error(_error.ERROR);
       }
-      var isTrue = this.parse(params[0]);
 
+      var isTrue = this.parse(params[0]);
       var result = this.parse(params[isTrue && isTrue.result ? 1 : 2]);
+
       if (result.error) {
         throw Error(result.error);
       }
+
       return result.result;
-    }.bind(_this));
+    }.bind(_assertThisInitialized(_this)));
+
     return _this;
   }
-
   /**
    * Parse formula expression.
    *
@@ -16532,288 +16612,295 @@ var Parser = function (_Emitter) {
    */
 
 
-  Parser.prototype.parse = function parse(expression) {
-    var result = null;
-    var error = null;
-    var ex = null;
+  _createClass(Parser, [{
+    key: "parse",
+    value: function parse(expression) {
+      var result = null;
+      var error = null;
+      var ex = null;
 
-    try {
-      if (expression === '') {
-        result = '';
-      } else {
-        result = this.parser.parse(expression);
-      }
-    } catch (e) {
-      ex = e;
-      if (expression.includes('IFERROR')) {
-        expression = expression.replace(new RegExp(/IFERROR\((.*),(.*)\)/), 'IFERROR("$1",$2)');
-        try {
-          result = this.parser.parse(expression);
-          if (!result.error) {
-            ex = null;
-          }
-        } catch (e2) {
-          ex = e2;
-        }
-      } else if (expression.includes('IF')) {
-        expression = expression.replace(new RegExp(/IF\((.*),(.*),(.*)\)/), 'IF("$1","$2","$3")');
-        try {
-          result = this.parser.parse(expression);
-
-          if (!result.error) {
-            ex = null;
-          }
-        } catch (e2) {
-          ex = e2;
-        }
-      } else if (expression.includes('FORMULATEXT')) {
-        var match = expression.match(/FORMULATEXT\((.*)\)/);
-
-        if (match && match[1] && typeof match[1] === 'string') {
-          var paramsFormula = this.getFunction('GETFORMULA') && this.getFunction('GETFORMULA')(match[1]) || null;
-          ex = null;
-          result = null;
-          if (paramsFormula && paramsFormula[0] === '=') {
-            result = '\'' + paramsFormula;
-          } else {
-            ex = paramsFormula;
-          }
+      try {
+        if (expression === '') {
+          result = '';
         } else {
-          ex = null;
-          error = (0, _error2['default'])(_error.ERROR);
+          result = this.parser.parse(expression);
+        }
+      } catch (e) {
+        ex = e;
+
+        if (expression.includes('IFERROR')) {
+          expression = expression.replace(new RegExp(/IFERROR\((.*),(.*)\)/), 'IFERROR("$1",$2)');
+
+          try {
+            result = this.parser.parse(expression);
+
+            if (!result.error) {
+              ex = null;
+            }
+          } catch (e2) {
+            ex = e2;
+          }
+        } else if (expression.includes('IF')) {
+          expression = expression.replace(new RegExp(/IF\((.*),(.*),(.*)\)/), 'IF("$1","$2","$3")');
+
+          try {
+            result = this.parser.parse(expression);
+
+            if (!result.error) {
+              ex = null;
+            }
+          } catch (e2) {
+            ex = e2;
+          }
+        } else if (expression.includes('FORMULATEXT')) {
+          var match = expression.match(/FORMULATEXT\((.*)\)/);
+
+          if (match && match[1] && typeof match[1] === 'string') {
+            var paramsFormula = this.getFunction('GETFORMULA') && this.getFunction('GETFORMULA')(match[1]) || null;
+            ex = null;
+            result = null;
+
+            if (paramsFormula && paramsFormula[0] === '=') {
+              result = "'".concat(paramsFormula);
+            } else {
+              ex = paramsFormula;
+            }
+          } else {
+            ex = null;
+            error = (0, _error["default"])(_error.ERROR);
+          }
         }
       }
-    }
-    if (ex) {
-      var message = (0, _error2['default'])(ex.message);
 
-      if (message) {
-        error = message;
+      if (ex) {
+        var message = (0, _error["default"])(ex.message);
+
+        if (message) {
+          error = message;
+        } else {
+          error = (0, _error["default"])(_error.ERROR);
+        }
+      }
+
+      if (result instanceof Error) {
+        error = (0, _error["default"])(result.message) || (0, _error["default"])(_error.ERROR);
+        result = null;
+      }
+
+      return {
+        error: error,
+        result: result
+      };
+    }
+    /**
+     * Set predefined variable name which can be visible while parsing formula expression.
+     *
+     * @param {String} name Variable name.
+     * @param {*} value Variable value.
+     * @returns {Parser}
+     */
+
+  }, {
+    key: "setVariable",
+    value: function setVariable(name, value) {
+      this.variables[name] = value;
+      return this;
+    }
+    /**
+     * Get variable name.
+     *
+     * @param {String} name Variable name.
+     * @returns {*}
+     */
+
+  }, {
+    key: "getVariable",
+    value: function getVariable(name) {
+      return this.variables[name];
+    }
+    /**
+     * Retrieve variable value by its name.
+     *
+     * @param name Variable name.
+     * @returns {*}
+     * @private
+     */
+
+  }, {
+    key: "_callVariable",
+    value: function _callVariable(name) {
+      var value = this.getVariable(name);
+      this.emit('callVariable', name, function (newValue) {
+        if (newValue !== void 0) {
+          value = newValue;
+        }
+      });
+
+      if (value === void 0) {
+        throw Error(_error.ERROR_NAME);
+      }
+
+      return value;
+    }
+    /**
+     * Set custom function which can be visible while parsing formula expression.
+     *
+     * @param {String} name Custom function name.
+     * @param {Function} fn Custom function.
+     * @returns {Parser}
+     */
+
+  }, {
+    key: "setFunction",
+    value: function setFunction(name, fn) {
+      this.functions[name] = fn;
+      return this;
+    }
+    /**
+     * Get custom function.
+     *
+     * @param {String} name Custom function name.
+     * @returns {*}
+     */
+
+  }, {
+    key: "getFunction",
+    value: function getFunction(name) {
+      return this.functions[name];
+    }
+    /**
+     * Call function with provided params.
+     *
+     * @param name Function name.
+     * @param params Function params.
+     * @returns {*}
+     * @private
+     */
+
+  }, {
+    key: "_callFunction",
+    value: function _callFunction(name) {
+      var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+      var fn = this.getFunction(name);
+      var value;
+
+      if (fn) {
+        value = fn(params);
+      }
+
+      this.emit('callFunction', name, params, function (newValue) {
+        if (newValue !== void 0) {
+          value = newValue;
+        }
+      });
+      return value === void 0 ? (0, _evaluateByOperator["default"])(name, params) : value;
+    }
+    /**
+     * Retrieve value by its label (`B3`, `B$3`, `B$3`, `$B$3`).
+     *
+     * @param {String} label Coordinates.
+     * @returns {*}
+     * @private
+     */
+
+  }, {
+    key: "_callCellValue",
+    value: function _callCellValue(label) {
+      label = label.toUpperCase();
+
+      var _extractLabel = (0, _cell.extractLabel)(label),
+          _extractLabel2 = _slicedToArray(_extractLabel, 2),
+          row = _extractLabel2[0],
+          column = _extractLabel2[1];
+
+      var value = void 0;
+      this.emit('callCellValue', {
+        label: label,
+        row: row,
+        column: column
+      }, function (_value) {
+        value = _value;
+      });
+      return value;
+    }
+    /**
+     * Retrieve value by its label (`B3:A1`, `B$3:A1`, `B$3:$A1`, `$B$3:A$1`).
+     *
+     * @param {String} startLabel Coordinates of the first cell.
+     * @param {String} endLabel Coordinates of the last cell.
+     * @returns {Array} Returns an array of mixed values.
+     * @private
+     */
+
+  }, {
+    key: "_callRangeValue",
+    value: function _callRangeValue(startLabel, endLabel) {
+      startLabel = startLabel.toUpperCase();
+      endLabel = endLabel.toUpperCase();
+
+      var _extractLabel3 = (0, _cell.extractLabel)(startLabel),
+          _extractLabel4 = _slicedToArray(_extractLabel3, 2),
+          startRow = _extractLabel4[0],
+          startColumn = _extractLabel4[1];
+
+      var _extractLabel5 = (0, _cell.extractLabel)(endLabel),
+          _extractLabel6 = _slicedToArray(_extractLabel5, 2),
+          endRow = _extractLabel6[0],
+          endColumn = _extractLabel6[1];
+
+      var startCell = {};
+      var endCell = {};
+
+      if (startRow.index <= endRow.index) {
+        startCell.row = startRow;
+        endCell.row = endRow;
       } else {
-        error = (0, _error2['default'])(_error.ERROR);
+        startCell.row = endRow;
+        endCell.row = startRow;
       }
-    }
 
-    if (result instanceof Error) {
-      error = (0, _error2['default'])(result.message) || (0, _error2['default'])(_error.ERROR);
-      result = null;
-    }
-
-    return {
-      error: error,
-      result: result
-    };
-  };
-
-  /**
-   * Set predefined variable name which can be visible while parsing formula expression.
-   *
-   * @param {String} name Variable name.
-   * @param {*} value Variable value.
-   * @returns {Parser}
-   */
-
-
-  Parser.prototype.setVariable = function setVariable(name, value) {
-    this.variables[name] = value;
-
-    return this;
-  };
-
-  /**
-   * Get variable name.
-   *
-   * @param {String} name Variable name.
-   * @returns {*}
-   */
-
-
-  Parser.prototype.getVariable = function getVariable(name) {
-    return this.variables[name];
-  };
-
-  /**
-   * Retrieve variable value by its name.
-   *
-   * @param name Variable name.
-   * @returns {*}
-   * @private
-   */
-
-
-  Parser.prototype._callVariable = function _callVariable(name) {
-    var value = this.getVariable(name);
-
-    this.emit('callVariable', name, function (newValue) {
-      if (newValue !== void 0) {
-        value = newValue;
+      if (startColumn.index <= endColumn.index) {
+        startCell.column = startColumn;
+        endCell.column = endColumn;
+      } else {
+        startCell.column = endColumn;
+        endCell.column = startColumn;
       }
-    });
 
-    if (value === void 0) {
-      throw Error(_error.ERROR_NAME);
+      startCell.label = (0, _cell.toLabel)(startCell.row, startCell.column);
+      endCell.label = (0, _cell.toLabel)(endCell.row, endCell.column);
+      var value = [];
+      this.emit('callRangeValue', startCell, endCell, function () {
+        var _value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+        value = _value;
+      });
+      return value;
     }
+    /**
+     * Try to throw error by its name.
+     *
+     * @param {String} errorName Error name.
+     * @returns {String}
+     * @private
+     */
 
-    return value;
-  };
-
-  /**
-   * Set custom function which can be visible while parsing formula expression.
-   *
-   * @param {String} name Custom function name.
-   * @param {Function} fn Custom function.
-   * @returns {Parser}
-   */
-
-
-  Parser.prototype.setFunction = function setFunction(name, fn) {
-    this.functions[name] = fn;
-
-    return this;
-  };
-
-  /**
-   * Get custom function.
-   *
-   * @param {String} name Custom function name.
-   * @returns {*}
-   */
-
-
-  Parser.prototype.getFunction = function getFunction(name) {
-    return this.functions[name];
-  };
-
-  /**
-   * Call function with provided params.
-   *
-   * @param name Function name.
-   * @param params Function params.
-   * @returns {*}
-   * @private
-   */
-
-
-  Parser.prototype._callFunction = function _callFunction(name) {
-    var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-
-    var fn = this.getFunction(name);
-    var value = void 0;
-
-    if (fn) {
-      value = fn(params);
-    }
-
-    this.emit('callFunction', name, params, function (newValue) {
-      if (newValue !== void 0) {
-        value = newValue;
+  }, {
+    key: "_throwError",
+    value: function _throwError(errorName) {
+      if ((0, _error.isValidStrict)(errorName)) {
+        throw Error(errorName);
       }
-    });
 
-    return value === void 0 ? (0, _evaluateByOperator2['default'])(name, params) : value;
-  };
-
-  /**
-   * Retrieve value by its label (`B3`, `B$3`, `B$3`, `$B$3`).
-   *
-   * @param {String} label Coordinates.
-   * @returns {*}
-   * @private
-   */
-
-
-  Parser.prototype._callCellValue = function _callCellValue(label) {
-    label = label.toUpperCase();
-
-    var _extractLabel = (0, _cell.extractLabel)(label),
-        row = _extractLabel[0],
-        column = _extractLabel[1];
-
-    var value = void 0;
-
-    this.emit('callCellValue', { label: label, row: row, column: column }, function (_value) {
-      value = _value;
-    });
-
-    return value;
-  };
-
-  /**
-   * Retrieve value by its label (`B3:A1`, `B$3:A1`, `B$3:$A1`, `$B$3:A$1`).
-   *
-   * @param {String} startLabel Coordinates of the first cell.
-   * @param {String} endLabel Coordinates of the last cell.
-   * @returns {Array} Returns an array of mixed values.
-   * @private
-   */
-
-
-  Parser.prototype._callRangeValue = function _callRangeValue(startLabel, endLabel) {
-    startLabel = startLabel.toUpperCase();
-    endLabel = endLabel.toUpperCase();
-
-    var _extractLabel2 = (0, _cell.extractLabel)(startLabel),
-        startRow = _extractLabel2[0],
-        startColumn = _extractLabel2[1];
-
-    var _extractLabel3 = (0, _cell.extractLabel)(endLabel),
-        endRow = _extractLabel3[0],
-        endColumn = _extractLabel3[1];
-
-    var startCell = {};
-    var endCell = {};
-
-    if (startRow.index <= endRow.index) {
-      startCell.row = startRow;
-      endCell.row = endRow;
-    } else {
-      startCell.row = endRow;
-      endCell.row = startRow;
+      throw Error(_error.ERROR);
     }
-
-    if (startColumn.index <= endColumn.index) {
-      startCell.column = startColumn;
-      endCell.column = endColumn;
-    } else {
-      startCell.column = endColumn;
-      endCell.column = startColumn;
-    }
-
-    startCell.label = (0, _cell.toLabel)(startCell.row, startCell.column);
-    endCell.label = (0, _cell.toLabel)(endCell.row, endCell.column);
-
-    var value = [];
-
-    this.emit('callRangeValue', startCell, endCell, function () {
-      var _value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-
-      value = _value;
-    });
-
-    return value;
-  };
-
-  /**
-   * Try to throw error by its name.
-   *
-   * @param {String} errorName Error name.
-   * @returns {String}
-   * @private
-   */
-
-
-  Parser.prototype._throwError = function _throwError(errorName) {
-    if ((0, _error.isValidStrict)(errorName)) {
-      throw Error(errorName);
-    }
-
-    throw Error(_error.ERROR);
-  };
+  }]);
 
   return Parser;
-}(_tinyEmitter2['default']);
+}(_tinyEmitter["default"]);
 
-exports['default'] = Parser;
+var _default = Parser;
+exports["default"] = _default;
 
 /***/ }),
 /* 18 */
@@ -16896,68 +16983,52 @@ module.exports.TinyEmitter = E;
 
 
 exports.__esModule = true;
-exports['default'] = evaluateByOperator;
+exports["default"] = evaluateByOperator;
 exports.registerOperation = registerOperation;
 
-var _add = __webpack_require__(20);
+var _add = _interopRequireDefault(__webpack_require__(20));
 
-var _add2 = _interopRequireDefault(_add);
+var _ampersand = _interopRequireDefault(__webpack_require__(21));
 
-var _ampersand = __webpack_require__(21);
+var _divide = _interopRequireDefault(__webpack_require__(22));
 
-var _ampersand2 = _interopRequireDefault(_ampersand);
+var _equal = _interopRequireDefault(__webpack_require__(23));
 
-var _divide = __webpack_require__(22);
+var _formulaFunction = _interopRequireDefault(__webpack_require__(24));
 
-var _divide2 = _interopRequireDefault(_divide);
+var _greaterThan = _interopRequireDefault(__webpack_require__(32));
 
-var _equal = __webpack_require__(23);
+var _greaterThanOrEqual = _interopRequireDefault(__webpack_require__(33));
 
-var _equal2 = _interopRequireDefault(_equal);
+var _lessThan = _interopRequireDefault(__webpack_require__(34));
 
-var _formulaFunction = __webpack_require__(24);
+var _lessThanOrEqual = _interopRequireDefault(__webpack_require__(35));
 
-var _formulaFunction2 = _interopRequireDefault(_formulaFunction);
+var _minus = _interopRequireDefault(__webpack_require__(36));
 
-var _greaterThan = __webpack_require__(32);
+var _multiply = _interopRequireDefault(__webpack_require__(37));
 
-var _greaterThan2 = _interopRequireDefault(_greaterThan);
+var _notEqual = _interopRequireDefault(__webpack_require__(38));
 
-var _greaterThanOrEqual = __webpack_require__(33);
-
-var _greaterThanOrEqual2 = _interopRequireDefault(_greaterThanOrEqual);
-
-var _lessThan = __webpack_require__(34);
-
-var _lessThan2 = _interopRequireDefault(_lessThan);
-
-var _lessThanOrEqual = __webpack_require__(35);
-
-var _lessThanOrEqual2 = _interopRequireDefault(_lessThanOrEqual);
-
-var _minus = __webpack_require__(36);
-
-var _minus2 = _interopRequireDefault(_minus);
-
-var _multiply = __webpack_require__(37);
-
-var _multiply2 = _interopRequireDefault(_multiply);
-
-var _notEqual = __webpack_require__(38);
-
-var _notEqual2 = _interopRequireDefault(_notEqual);
-
-var _power = __webpack_require__(39);
-
-var _power2 = _interopRequireDefault(_power);
+var _power = _interopRequireDefault(__webpack_require__(39));
 
 var _error = __webpack_require__(2);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-/* eslint-disable import/no-named-as-default-member */
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 var availableOperators = Object.create(null);
-
 /**
  * Evaluate values by operator id.git
  *
@@ -16965,28 +17036,30 @@ var availableOperators = Object.create(null);
  * @param {Array} [params=[]] Arguments to evaluate.
  * @returns {*}
  */
+
 function evaluateByOperator(operator) {
   var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-
   operator = operator.toUpperCase();
 
   if (!availableOperators[operator]) {
     throw Error(_error.ERROR_NAME);
   }
 
-  return availableOperators[operator].apply(availableOperators, params);
+  return availableOperators[operator].apply(availableOperators, _toConsumableArray(params));
 }
-
 /**
  * Register operator.
  *
  * @param {String|Array} symbol Symbol to register.
  * @param {Function} func Logic to register for this symbol.
  */
+
+
 function registerOperation(symbol, func) {
   if (!Array.isArray(symbol)) {
     symbol = [symbol.toUpperCase()];
   }
+
   symbol.forEach(function (s) {
     if (func.isFactory) {
       availableOperators[s] = func(s);
@@ -16996,19 +17069,19 @@ function registerOperation(symbol, func) {
   });
 }
 
-registerOperation(_add2['default'].SYMBOL, _add2['default']);
-registerOperation(_ampersand2['default'].SYMBOL, _ampersand2['default']);
-registerOperation(_divide2['default'].SYMBOL, _divide2['default']);
-registerOperation(_equal2['default'].SYMBOL, _equal2['default']);
-registerOperation(_power2['default'].SYMBOL, _power2['default']);
-registerOperation(_formulaFunction2['default'].SYMBOL, _formulaFunction2['default']);
-registerOperation(_greaterThan2['default'].SYMBOL, _greaterThan2['default']);
-registerOperation(_greaterThanOrEqual2['default'].SYMBOL, _greaterThanOrEqual2['default']);
-registerOperation(_lessThan2['default'].SYMBOL, _lessThan2['default']);
-registerOperation(_lessThanOrEqual2['default'].SYMBOL, _lessThanOrEqual2['default']);
-registerOperation(_multiply2['default'].SYMBOL, _multiply2['default']);
-registerOperation(_notEqual2['default'].SYMBOL, _notEqual2['default']);
-registerOperation(_minus2['default'].SYMBOL, _minus2['default']);
+registerOperation(_add["default"].SYMBOL, _add["default"]);
+registerOperation(_ampersand["default"].SYMBOL, _ampersand["default"]);
+registerOperation(_divide["default"].SYMBOL, _divide["default"]);
+registerOperation(_equal["default"].SYMBOL, _equal["default"]);
+registerOperation(_power["default"].SYMBOL, _power["default"]);
+registerOperation(_formulaFunction["default"].SYMBOL, _formulaFunction["default"]);
+registerOperation(_greaterThan["default"].SYMBOL, _greaterThan["default"]);
+registerOperation(_greaterThanOrEqual["default"].SYMBOL, _greaterThanOrEqual["default"]);
+registerOperation(_lessThan["default"].SYMBOL, _lessThan["default"]);
+registerOperation(_lessThanOrEqual["default"].SYMBOL, _lessThanOrEqual["default"]);
+registerOperation(_multiply["default"].SYMBOL, _multiply["default"]);
+registerOperation(_notEqual["default"].SYMBOL, _notEqual["default"]);
+registerOperation(_minus["default"].SYMBOL, _minus["default"]);
 
 /***/ }),
 /* 20 */
@@ -17018,29 +17091,28 @@ registerOperation(_minus2['default'].SYMBOL, _minus2['default']);
 
 
 exports.__esModule = true;
-exports.SYMBOL = undefined;
-exports['default'] = func;
+exports["default"] = func;
+exports.SYMBOL = void 0;
 
 var _number = __webpack_require__(3);
 
 var _error = __webpack_require__(2);
 
-var _decimal = __webpack_require__(4);
+var _decimal = _interopRequireDefault(__webpack_require__(4));
 
-var _decimal2 = _interopRequireDefault(_decimal);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var SYMBOL = exports.SYMBOL = '+';
+var SYMBOL = '+';
+exports.SYMBOL = SYMBOL;
 
 function func(first) {
   try {
-    for (var _len = arguments.length, rest = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    for (var _len = arguments.length, rest = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
       rest[_key - 1] = arguments[_key];
     }
 
     var result = rest.reduce(function (acc, value) {
-      return new _decimal2['default'](acc).plus(new _decimal2['default'](value)).toNumber();
+      return new _decimal["default"](acc).plus(new _decimal["default"](value)).toNumber();
     }, (0, _number.toNumber)(first));
 
     if (isNaN(result)) {
@@ -17063,11 +17135,13 @@ func.SYMBOL = SYMBOL;
 
 
 exports.__esModule = true;
-exports['default'] = func;
-var SYMBOL = exports.SYMBOL = '&';
+exports["default"] = func;
+exports.SYMBOL = void 0;
+var SYMBOL = '&';
+exports.SYMBOL = SYMBOL;
 
 function func() {
-  for (var _len = arguments.length, params = Array(_len), _key = 0; _key < _len; _key++) {
+  for (var _len = arguments.length, params = new Array(_len), _key = 0; _key < _len; _key++) {
     params[_key] = arguments[_key];
   }
 
@@ -17086,29 +17160,29 @@ func.SYMBOL = SYMBOL;
 
 
 exports.__esModule = true;
-exports.SYMBOL = undefined;
-exports['default'] = func;
+exports["default"] = func;
+exports.SYMBOL = void 0;
 
 var _number = __webpack_require__(3);
 
 var _error = __webpack_require__(2);
 
-var _decimal = __webpack_require__(4);
+var _decimal = _interopRequireDefault(__webpack_require__(4));
 
-var _decimal2 = _interopRequireDefault(_decimal);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var SYMBOL = exports.SYMBOL = '/';
+var SYMBOL = '/';
+exports.SYMBOL = SYMBOL;
 
 function func(first) {
   try {
-    for (var _len = arguments.length, rest = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    for (var _len = arguments.length, rest = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
       rest[_key - 1] = arguments[_key];
     }
 
     var result = rest.reduce(function (acc, value) {
-      var tempValue = new _decimal2['default'](acc).div(new _decimal2['default']((0, _number.toNumber)(value))).toNumber();
+      var tempValue = new _decimal["default"](acc).div(new _decimal["default"]((0, _number.toNumber)(value))).toNumber();
+
       if (tempValue === Infinity || tempValue === -Infinity) {
         throw Error(_error.ERROR_DIV_ZERO);
       }
@@ -17140,8 +17214,10 @@ func.SYMBOL = SYMBOL;
 
 
 exports.__esModule = true;
-exports['default'] = func;
-var SYMBOL = exports.SYMBOL = '=';
+exports["default"] = func;
+exports.SYMBOL = void 0;
+var SYMBOL = '=';
+exports.SYMBOL = SYMBOL;
 
 function func(exp1, exp2) {
   if (typeof exp1 === 'string' && typeof exp2 === 'string') {
@@ -17161,42 +17237,36 @@ func.SYMBOL = SYMBOL;
 
 
 exports.__esModule = true;
-exports.SYMBOL = undefined;
-exports['default'] = func;
+exports["default"] = func;
+exports.SYMBOL = void 0;
 
-var _formulajs = __webpack_require__(25);
+var _formulajs = _interopRequireDefault(__webpack_require__(25));
 
-var formulajs = _interopRequireWildcard(_formulajs);
-
-var _supportedFormulas = __webpack_require__(14);
-
-var _supportedFormulas2 = _interopRequireDefault(_supportedFormulas);
+var _supportedFormulas = _interopRequireDefault(__webpack_require__(14));
 
 var _error = __webpack_require__(2);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
-
-var SYMBOL = exports.SYMBOL = _supportedFormulas2['default'];
+var SYMBOL = _supportedFormulas["default"];
+exports.SYMBOL = SYMBOL;
 
 function func(symbol) {
   return function __formulaFunction() {
     symbol = symbol.toUpperCase();
-
     var symbolParts = symbol.split('.');
     var foundFormula = false;
-    var result = void 0;
+    var result;
 
     if (symbolParts.length === 1) {
-      if (formulajs[symbolParts[0]]) {
+      if (_formulajs["default"][symbolParts[0]]) {
         foundFormula = true;
-        result = formulajs[symbolParts[0]].apply(formulajs, arguments);
+        result = _formulajs["default"][symbolParts[0]].apply(_formulajs["default"], arguments);
       }
     } else {
       var length = symbolParts.length;
       var index = 0;
-      var nestedFormula = formulajs;
+      var nestedFormula = _formulajs["default"];
 
       while (index < length) {
         nestedFormula = nestedFormula[symbolParts[index]];
@@ -17207,9 +17277,10 @@ function func(symbol) {
           break;
         }
       }
+
       if (nestedFormula) {
         foundFormula = true;
-        result = nestedFormula.apply(undefined, arguments);
+        result = nestedFormula.apply(void 0, arguments);
       }
     }
 
@@ -17357,15 +17428,7 @@ var BESSEL;
   if(typeof DO_NOT_EXPORT_BESSEL === 'undefined') {
     if(true) {
       factory(exports);
-    } else if ('function' === typeof define && define.amd) {
-      define(function () {
-        var module = {};
-        factory(module);
-        return module;
-      });
-    } else {
-      factory(BESSEL = {});
-    }
+    } else {}
   } else {
     factory(BESSEL = {});
   }
@@ -19328,8 +19391,10 @@ exports.HLOOKUP = function (needle, table, index, rangeLookup) {
 
 
 exports.__esModule = true;
-exports['default'] = func;
-var SYMBOL = exports.SYMBOL = '>';
+exports["default"] = func;
+exports.SYMBOL = void 0;
+var SYMBOL = '>';
+exports.SYMBOL = SYMBOL;
 
 function func(exp1, exp2) {
   return exp1 > exp2;
@@ -19345,8 +19410,10 @@ func.SYMBOL = SYMBOL;
 
 
 exports.__esModule = true;
-exports['default'] = func;
-var SYMBOL = exports.SYMBOL = '>=';
+exports["default"] = func;
+exports.SYMBOL = void 0;
+var SYMBOL = '>=';
+exports.SYMBOL = SYMBOL;
 
 function func(exp1, exp2) {
   return exp1 >= exp2;
@@ -19362,8 +19429,10 @@ func.SYMBOL = SYMBOL;
 
 
 exports.__esModule = true;
-exports['default'] = func;
-var SYMBOL = exports.SYMBOL = '<';
+exports["default"] = func;
+exports.SYMBOL = void 0;
+var SYMBOL = '<';
+exports.SYMBOL = SYMBOL;
 
 function func(exp1, exp2) {
   return exp1 < exp2;
@@ -19379,8 +19448,10 @@ func.SYMBOL = SYMBOL;
 
 
 exports.__esModule = true;
-exports['default'] = func;
-var SYMBOL = exports.SYMBOL = '<=';
+exports["default"] = func;
+exports.SYMBOL = void 0;
+var SYMBOL = '<=';
+exports.SYMBOL = SYMBOL;
 
 function func(exp1, exp2) {
   return exp1 <= exp2;
@@ -19396,29 +19467,28 @@ func.SYMBOL = SYMBOL;
 
 
 exports.__esModule = true;
-exports.SYMBOL = undefined;
-exports['default'] = func;
+exports["default"] = func;
+exports.SYMBOL = void 0;
 
-var _decimal = __webpack_require__(4);
-
-var _decimal2 = _interopRequireDefault(_decimal);
+var _decimal = _interopRequireDefault(__webpack_require__(4));
 
 var _number = __webpack_require__(3);
 
 var _error = __webpack_require__(2);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var SYMBOL = exports.SYMBOL = '-';
+var SYMBOL = '-';
+exports.SYMBOL = SYMBOL;
 
 function func(first) {
   try {
-    for (var _len = arguments.length, rest = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    for (var _len = arguments.length, rest = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
       rest[_key - 1] = arguments[_key];
     }
 
     var result = rest.reduce(function (acc, value) {
-      return new _decimal2['default'](acc).minus(new _decimal2['default'](value)).toNumber();
+      return new _decimal["default"](acc).minus(new _decimal["default"](value)).toNumber();
     }, (0, _number.toNumber)(first));
 
     if (isNaN(result)) {
@@ -19441,29 +19511,28 @@ func.SYMBOL = SYMBOL;
 
 
 exports.__esModule = true;
-exports.SYMBOL = undefined;
-exports['default'] = func;
+exports["default"] = func;
+exports.SYMBOL = void 0;
 
 var _number = __webpack_require__(3);
 
 var _error = __webpack_require__(2);
 
-var _decimal = __webpack_require__(4);
+var _decimal = _interopRequireDefault(__webpack_require__(4));
 
-var _decimal2 = _interopRequireDefault(_decimal);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var SYMBOL = exports.SYMBOL = '*';
+var SYMBOL = '*';
+exports.SYMBOL = SYMBOL;
 
 function func(first) {
   try {
-    for (var _len = arguments.length, rest = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    for (var _len = arguments.length, rest = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
       rest[_key - 1] = arguments[_key];
     }
 
     var result = rest.reduce(function (acc, value) {
-      return new _decimal2['default'](acc).mul(new _decimal2['default'](value)).toNumber();
+      return new _decimal["default"](acc).mul(new _decimal["default"](value)).toNumber();
     }, (0, _number.toNumber)(first));
 
     if (isNaN(result)) {
@@ -19486,8 +19555,10 @@ func.SYMBOL = SYMBOL;
 
 
 exports.__esModule = true;
-exports['default'] = func;
-var SYMBOL = exports.SYMBOL = '<>';
+exports["default"] = func;
+exports.SYMBOL = void 0;
+var SYMBOL = '<>';
+exports.SYMBOL = SYMBOL;
 
 function func(exp1, exp2) {
   return exp1 !== exp2;
@@ -19503,27 +19574,27 @@ func.SYMBOL = SYMBOL;
 
 
 exports.__esModule = true;
-exports.SYMBOL = undefined;
-exports['default'] = func;
+exports["default"] = func;
+exports.SYMBOL = void 0;
 
 var _number = __webpack_require__(3);
 
 var _error = __webpack_require__(2);
 
-var _decimal = __webpack_require__(4);
+var _decimal = _interopRequireDefault(__webpack_require__(4));
 
-var _decimal2 = _interopRequireDefault(_decimal);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var SYMBOL = exports.SYMBOL = '^';
+var SYMBOL = '^';
+exports.SYMBOL = SYMBOL;
 
 function func(exp1, exp2) {
   if (!Number.isInteger((0, _number.toNumber)(exp2))) {
     throw Error(_error.ERROR_VALUE);
   }
 
-  var result = new _decimal2['default']((0, _number.toNumber)(exp1)).toPower((0, _number.toNumber)(exp2)).toNumber();
+  var result = new _decimal["default"]((0, _number.toNumber)(exp1)).toPower((0, _number.toNumber)(exp2)).toNumber();
+
   if (isNaN(result)) {
     throw Error(_error.ERROR_VALUE);
   }
@@ -19535,14 +19606,19 @@ func.SYMBOL = SYMBOL;
 
 /***/ }),
 /* 40 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Parser", function() { return Parser; });
 /* parser generated by jison 0.4.18 */
 /*
   Returns a Parser object of the following structure:
+
   Parser: {
     yy: {}
   }
+
   Parser.prototype: {
     yy: {},
     trace: function(),
@@ -19554,6 +19630,7 @@ func.SYMBOL = SYMBOL;
     defaultActions: {...},
     parseError: function(str, hash),
     parse: function(input),
+
     lexer: {
         EOF: 1,
         parseError: function(str, hash),
@@ -19573,16 +19650,20 @@ func.SYMBOL = SYMBOL;
         _currentRules: function(),
         topState: function(),
         pushState: function(condition),
+
         options: {
             ranges: boolean           (optional: true ==> token location info will include a .range[] member)
             flex: boolean             (optional: true ==> flex-like lexing behaviour where the rules are tested exhaustively to find the longest match)
             backtrack_lexer: boolean  (optional: true ==> lexer regexes are tested in order and for each matching regex the action code is invoked; the lexer terminates the scan when a token is returned by the action code)
         },
+
         performAction: function(yy, yy_, $avoiding_name_collisions, YY_START),
         rules: [...],
         conditions: {associative list: name ==> set},
     }
   }
+
+
   token location info (@$, _$, etc.): {
     first_line: n,
     last_line: n,
@@ -19590,6 +19671,8 @@ func.SYMBOL = SYMBOL;
     last_column: n,
     range: [start_number, end_number]       (where the numbers are indexes into the input string, regular zero-based)
   }
+
+
   the parseError function receives a 'hash' object with these members for lexer and parser errors: {
     text:        (matched text)
     token:       (the produced terminal token, if any)
@@ -19601,881 +19684,1690 @@ func.SYMBOL = SYMBOL;
     recoverable: (boolean: TRUE when the parser has a error recovery rule available for this particular error)
   }
 */
-var grammarParser = (function(){
-    var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[1,5],$V1=[1,9],$V2=[1,6],$V3=[1,7],$V4=[1,8],$V5=[1,10],$V6=[1,15],$V7=[1,16],$V8=[1,17],$V9=[1,13],$Va=[1,14],$Vb=[1,18],$Vc=[1,20],$Vd=[1,21],$Ve=[1,22],$Vf=[1,23],$Vg=[1,24],$Vh=[1,25],$Vi=[1,26],$Vj=[1,27],$Vk=[1,28],$Vl=[1,29],$Vm=[5,9,10,11,13,15,17,18,19,20,21,22,23,31,32],$Vn=[1,36],$Vo=[5,9,10,11,13,15,17,18,19,20,21,22,23,31,32,34],$Vp=[5,9,10,11,13,15,17,18,19,20,21,22,23,31,32,36],$Vq=[1,61],$Vr=[1,62],$Vs=[13,15,31,32],$Vt=[5,10,11,13,15,17,18,19,20,31,32],$Vu=[5,10,13,15,17,18,19,31,32],$Vv=[5,10,11,13,15,17,18,19,20,21,22,31,32];
-    var parser = {trace: function trace() { },
-    yy: {},
-    symbols_: {"error":2,"expressions":3,"expression":4,"EOF":5,"variableSequence":6,"number":7,"STRING":8,"&":9,"=":10,"+":11,"(":12,")":13,"{":14,"}":15,"expseq":16,"<":17,">":18,"NOT":19,"-":20,"*":21,"/":22,"^":23,"FUNCTION":24,"cell":25,"ABSOLUTE_CELL":26,"RELATIVE_CELL":27,"MIXED_CELL":28,":":29,"ARRAY":30,";":31,",":32,"VARIABLE":33,"DECIMAL":34,"NUMBER":35,"%":36,"ERROR":37,"$accept":0,"$end":1},
-    terminals_: {5:"EOF",8:"STRING",9:"&",10:"=",11:"+",12:"(",13:")",14:"{",15:"}",17:"<",18:">",19:"NOT",20:"-",21:"*",22:"/",23:"^",24:"FUNCTION",26:"ABSOLUTE_CELL",27:"RELATIVE_CELL",28:"MIXED_CELL",29:":",30:"ARRAY",31:";",32:",",33:"VARIABLE",34:"DECIMAL",35:"NUMBER",36:"%",37:"ERROR"},
-    productions_: [0,[3,2],[4,1],[4,1],[4,1],[4,3],[4,3],[4,3],[4,3],[4,2],[4,3],[4,4],[4,4],[4,4],[4,3],[4,3],[4,3],[4,3],[4,3],[4,3],[4,3],[4,2],[4,2],[4,3],[4,4],[4,1],[4,1],[4,2],[25,1],[25,1],[25,1],[25,3],[25,3],[25,3],[25,3],[25,3],[25,3],[25,3],[25,3],[25,3],[16,1],[16,1],[16,3],[16,3],[6,1],[6,3],[7,1],[7,3],[7,2],[2,1]],
-    performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* action[1] */, $$ /* vstack */, _$ /* lstack */) {
+
+var o = function (k, v, o, l) {
+    for (o = o || {}, l = k.length; l--; o[k[l]] = v);
+    return o;
+  },
+  $V0 = [1, 5],
+  $V1 = [1, 8],
+  $V2 = [1, 6],
+  $V3 = [1, 7],
+  $V4 = [1, 9],
+  $V5 = [1, 14],
+  $V6 = [1, 15],
+  $V7 = [1, 16],
+  $V8 = [1, 12],
+  $V9 = [1, 13],
+  $Va = [1, 17],
+  $Vb = [1, 19],
+  $Vc = [1, 20],
+  $Vd = [1, 21],
+  $Ve = [1, 22],
+  $Vf = [1, 23],
+  $Vg = [1, 24],
+  $Vh = [1, 25],
+  $Vi = [1, 26],
+  $Vj = [1, 27],
+  $Vk = [1, 28],
+  $Vl = [5, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 29, 30],
+  $Vm = [5, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 29, 30, 32],
+  $Vn = [5, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 29, 30, 34],
+  $Vo = [5, 10, 11, 13, 14, 15, 16, 17, 29, 30],
+  $Vp = [5, 10, 13, 14, 15, 16, 29, 30],
+  $Vq = [5, 10, 11, 13, 14, 15, 16, 17, 18, 19, 29, 30],
+  $Vr = [13, 29, 30];
+var parser = {
+  trace: function trace() {},
+  yy: {},
+  symbols_: {
+    error: 2,
+    expressions: 3,
+    expression: 4,
+    EOF: 5,
+    variableSequence: 6,
+    number: 7,
+    STRING: 8,
+    '&': 9,
+    '=': 10,
+    '+': 11,
+    '(': 12,
+    ')': 13,
+    '<': 14,
+    '>': 15,
+    NOT: 16,
+    '-': 17,
+    '*': 18,
+    '/': 19,
+    '^': 20,
+    FUNCTION: 21,
+    expseq: 22,
+    cell: 23,
+    ABSOLUTE_CELL: 24,
+    RELATIVE_CELL: 25,
+    MIXED_CELL: 26,
+    ':': 27,
+    ARRAY: 28,
+    ';': 29,
+    ',': 30,
+    VARIABLE: 31,
+    DECIMAL: 32,
+    NUMBER: 33,
+    '%': 34,
+    ERROR: 35,
+    $accept: 0,
+    $end: 1,
+  },
+  terminals_: {
+    5: 'EOF',
+    8: 'STRING',
+    9: '&',
+    10: '=',
+    11: '+',
+    12: '(',
+    13: ')',
+    14: '<',
+    15: '>',
+    16: 'NOT',
+    17: '-',
+    18: '*',
+    19: '/',
+    20: '^',
+    21: 'FUNCTION',
+    24: 'ABSOLUTE_CELL',
+    25: 'RELATIVE_CELL',
+    26: 'MIXED_CELL',
+    27: ':',
+    28: 'ARRAY',
+    29: ';',
+    30: ',',
+    31: 'VARIABLE',
+    32: 'DECIMAL',
+    33: 'NUMBER',
+    34: '%',
+    35: 'ERROR',
+  },
+  productions_: [
+    0,
+    [3, 2],
+    [4, 1],
+    [4, 1],
+    [4, 1],
+    [4, 3],
+    [4, 3],
+    [4, 3],
+    [4, 3],
+    [4, 4],
+    [4, 4],
+    [4, 4],
+    [4, 3],
+    [4, 3],
+    [4, 3],
+    [4, 3],
+    [4, 3],
+    [4, 3],
+    [4, 3],
+    [4, 2],
+    [4, 2],
+    [4, 3],
+    [4, 4],
+    [4, 1],
+    [4, 1],
+    [4, 2],
+    [23, 1],
+    [23, 1],
+    [23, 1],
+    [23, 3],
+    [23, 3],
+    [23, 3],
+    [23, 3],
+    [23, 3],
+    [23, 3],
+    [23, 3],
+    [23, 3],
+    [23, 3],
+    [22, 1],
+    [22, 1],
+    [22, 3],
+    [22, 3],
+    [6, 1],
+    [6, 3],
+    [7, 1],
+    [7, 3],
+    [7, 2],
+    [2, 1],
+  ],
+  performAction: function anonymous(
+    yytext,
+    yyleng,
+    yylineno,
+    yy,
+    yystate /* action[1] */,
+    $$ /* vstack */,
+    _$ /* lstack */
+  ) {
     /* this == yyval */
-    
+
     var $0 = $$.length - 1;
     switch (yystate) {
-    case 1:
-    
-          return $$[$0-1];
-    
-    break;
-    case 2:
-    
-          this.$ = yy.callVariable($$[$0][0]);
-    
-    break;
-    case 3:
-    
-          this.$ = yy.toNumber($$[$0]);
-    
-    break;
-    case 4:
-    
-          this.$ = yy.trimEdges($$[$0]);
-    
-    break;
-    case 5:
-    
-          this.$ = yy.evaluateByOperator('&', [$$[$0-2], $$[$0]]);
-    
-    break;
-    case 6:
-    
-          this.$ = yy.evaluateByOperator('=', [$$[$0-2], $$[$0]]);
-    
-    break;
-    case 7:
-    
-          this.$ = yy.evaluateByOperator('+', [$$[$0-2], $$[$0]]);
-    
-    break;
-    case 8:
-    
-          this.$ = $$[$0-1];
-    
-    break;
-    case 9:
-    
-          this.$ = []
-    
-    break;
-    case 10:
-    
-          this.$ = $$[$0-1]
-    
-    break;
-    case 11:
-    
-          this.$ = yy.evaluateByOperator('<=', [$$[$0-3], $$[$0]]);
-    
-    break;
-    case 12:
-    
-          this.$ = yy.evaluateByOperator('>=', [$$[$0-3], $$[$0]]);
-    
-    break;
-    case 13:
-    
-          this.$ = yy.evaluateByOperator('<>', [$$[$0-3], $$[$0]]);
-    
-    break;
-    case 14:
-    
-          this.$ = yy.evaluateByOperator('NOT', [$$[$0-2], $$[$0]]);
-    
-    break;
-    case 15:
-    
-          this.$ = yy.evaluateByOperator('>', [$$[$0-2], $$[$0]]);
-    
-    break;
-    case 16:
-    
-          this.$ = yy.evaluateByOperator('<', [$$[$0-2], $$[$0]]);
-    
-    break;
-    case 17:
-    
-          this.$ = yy.evaluateByOperator('-', [$$[$0-2], $$[$0]]);
-    
-    break;
-    case 18:
-    
-          this.$ = yy.evaluateByOperator('*', [$$[$0-2], $$[$0]]);
-    
-    break;
-    case 19:
-    
-          this.$ = yy.evaluateByOperator('/', [$$[$0-2], $$[$0]]);
-    
-    break;
-    case 20:
-    
-          this.$ = yy.evaluateByOperator('^', [$$[$0-2], $$[$0]]);
-    
-    break;
-    case 21:
-    
-          var n1 = yy.invertNumber($$[$0]);
-    
-          this.$ = n1;
-    
-          if (isNaN(this.$)) {
-              this.$ = 0;
-          }
-    
-    break;
-    case 22:
-    
-          var n1 = yy.toNumber($$[$0]);
-    
-          this.$ = n1;
-    
-          if (isNaN(this.$)) {
-              this.$ = 0;
-          }
-    
-    break;
-    case 23:
-    
-          this.$ = yy.callFunction($$[$0-2]);
-    
-    break;
-    case 24:
-    
-          this.$ = yy.callFunction($$[$0-3], $$[$0-1]);
-    
-    break;
-    case 28: case 29: case 30:
-    
-          this.$ = yy.cellValue($$[$0]);
-    
-    break;
-    case 31: case 32: case 33: case 34: case 35: case 36: case 37: case 38: case 39:
-    
-          this.$ = yy.rangeValue($$[$0-2], $$[$0]);
-    
-    break;
-    case 40: case 44:
-    
-          this.$ = [$$[$0]];
-    
-    break;
-    case 41:
-    
-          this.$ = yy.trimEdges(yytext).split(',');
-    
-    break;
-    case 42: case 43:
-    
-          $$[$0-2].push($$[$0]);
-          this.$ = $$[$0-2];
-    
-    break;
-    case 45:
-    
-          this.$ = (Array.isArray($$[$0-2]) ? $$[$0-2] : [$$[$0-2]]);
-          this.$.push($$[$0]);
-    
-    break;
-    case 46:
-    
-          this.$ = $$[$0];
-    
-    break;
-    case 47:
-    
-          this.$ = ($$[$0-2] + '.' + $$[$0]) * 1;
-    
-    break;
-    case 48:
-    
-          this.$ = $$[$0-1] * 0.01;
-    
-    break;
-    case 49:
-    
-          this.$ = yy.throwError($$[$0]);
-    
-    break;
+      case 1:
+        return $$[$0 - 1];
+
+        break;
+      case 2:
+        this.$ = yy.callVariable($$[$0][0]);
+
+        break;
+      case 3:
+        this.$ = yy.toNumber($$[$0]);
+
+        break;
+      case 4:
+        this.$ = yy.trimEdges($$[$0]);
+
+        break;
+      case 5:
+        this.$ = yy.evaluateByOperator('&', [$$[$0 - 2], $$[$0]]);
+
+        break;
+      case 6:
+        this.$ = yy.evaluateByOperator('=', [$$[$0 - 2], $$[$0]]);
+
+        break;
+      case 7:
+        this.$ = yy.evaluateByOperator('+', [$$[$0 - 2], $$[$0]]);
+
+        break;
+      case 8:
+        this.$ = $$[$0 - 1];
+
+        break;
+      case 9:
+        this.$ = yy.evaluateByOperator('<=', [$$[$0 - 3], $$[$0]]);
+
+        break;
+      case 10:
+        this.$ = yy.evaluateByOperator('>=', [$$[$0 - 3], $$[$0]]);
+
+        break;
+      case 11:
+        this.$ = yy.evaluateByOperator('<>', [$$[$0 - 3], $$[$0]]);
+
+        break;
+      case 12:
+        this.$ = yy.evaluateByOperator('NOT', [$$[$0 - 2], $$[$0]]);
+
+        break;
+      case 13:
+        this.$ = yy.evaluateByOperator('>', [$$[$0 - 2], $$[$0]]);
+
+        break;
+      case 14:
+        this.$ = yy.evaluateByOperator('<', [$$[$0 - 2], $$[$0]]);
+
+        break;
+      case 15:
+        this.$ = yy.evaluateByOperator('-', [$$[$0 - 2], $$[$0]]);
+
+        break;
+      case 16:
+        this.$ = yy.evaluateByOperator('*', [$$[$0 - 2], $$[$0]]);
+
+        break;
+      case 17:
+        this.$ = yy.evaluateByOperator('/', [$$[$0 - 2], $$[$0]]);
+
+        break;
+      case 18:
+        this.$ = yy.evaluateByOperator('^', [$$[$0 - 2], $$[$0]]);
+
+        break;
+      case 19:
+        var n1 = yy.invertNumber($$[$0]);
+
+        this.$ = n1;
+
+        if (isNaN(this.$)) {
+          this.$ = 0;
+        }
+
+        break;
+      case 20:
+        var n1 = yy.toNumber($$[$0]);
+
+        this.$ = n1;
+
+        if (isNaN(this.$)) {
+          this.$ = 0;
+        }
+
+        break;
+      case 21:
+        this.$ = yy.callFunction($$[$0 - 2]);
+
+        break;
+      case 22:
+        this.$ = yy.callFunction($$[$0 - 3], $$[$0 - 1]);
+
+        break;
+      case 26:
+      case 27:
+      case 28:
+        this.$ = yy.cellValue($$[$0]);
+
+        break;
+      case 29:
+      case 30:
+      case 31:
+      case 32:
+      case 33:
+      case 34:
+      case 35:
+      case 36:
+      case 37:
+        this.$ = yy.rangeValue($$[$0 - 2], $$[$0]);
+
+        break;
+      case 38:
+      case 42:
+        this.$ = [$$[$0]];
+
+        break;
+      case 39:
+        this.$ = yy.trimEdges(yytext).split(',');
+
+        break;
+      case 40:
+      case 41:
+        $$[$0 - 2].push($$[$0]);
+        this.$ = $$[$0 - 2];
+
+        break;
+      case 43:
+        this.$ = Array.isArray($$[$0 - 2]) ? $$[$0 - 2] : [$$[$0 - 2]];
+        this.$.push($$[$0]);
+
+        break;
+      case 44:
+        this.$ = $$[$0];
+
+        break;
+      case 45:
+        this.$ = ($$[$0 - 2] + '.' + $$[$0]) * 1;
+
+        break;
+      case 46:
+        this.$ = $$[$0 - 1] * 0.01;
+
+        break;
+      case 47:
+        this.$ = yy.throwError($$[$0]);
+
+        break;
     }
+  },
+  table: [
+    {
+      2: 11,
+      3: 1,
+      4: 2,
+      6: 3,
+      7: 4,
+      8: $V0,
+      11: $V1,
+      12: $V2,
+      17: $V3,
+      21: $V4,
+      23: 10,
+      24: $V5,
+      25: $V6,
+      26: $V7,
+      31: $V8,
+      33: $V9,
+      35: $Va,
     },
-    table: [{2:12,3:1,4:2,6:3,7:4,8:$V0,11:$V1,12:$V2,14:$V3,20:$V4,24:$V5,25:11,26:$V6,27:$V7,28:$V8,33:$V9,35:$Va,37:$Vb},{1:[3]},{5:[1,19],9:$Vc,10:$Vd,11:$Ve,17:$Vf,18:$Vg,19:$Vh,20:$Vi,21:$Vj,22:$Vk,23:$Vl},o($Vm,[2,2],{34:[1,30]}),o($Vm,[2,3],{36:[1,31]}),o($Vm,[2,4]),{2:12,4:32,6:3,7:4,8:$V0,11:$V1,12:$V2,14:$V3,20:$V4,24:$V5,25:11,26:$V6,27:$V7,28:$V8,33:$V9,35:$Va,37:$Vb},{2:12,4:35,6:3,7:4,8:$V0,11:$V1,12:$V2,14:$V3,15:[1,33],16:34,20:$V4,24:$V5,25:11,26:$V6,27:$V7,28:$V8,30:$Vn,33:$V9,35:$Va,37:$Vb},{2:12,4:37,6:3,7:4,8:$V0,11:$V1,12:$V2,14:$V3,20:$V4,24:$V5,25:11,26:$V6,27:$V7,28:$V8,33:$V9,35:$Va,37:$Vb},{2:12,4:38,6:3,7:4,8:$V0,11:$V1,12:$V2,14:$V3,20:$V4,24:$V5,25:11,26:$V6,27:$V7,28:$V8,33:$V9,35:$Va,37:$Vb},{12:[1,39]},o($Vm,[2,25]),o($Vm,[2,26],{2:40,37:$Vb}),o($Vo,[2,44]),o($Vp,[2,46],{34:[1,41]}),o($Vm,[2,28],{29:[1,42]}),o($Vm,[2,29],{29:[1,43]}),o($Vm,[2,30],{29:[1,44]}),o([5,9,10,11,13,15,17,18,19,20,21,22,23,31,32,37],[2,49]),{1:[2,1]},{2:12,4:45,6:3,7:4,8:$V0,11:$V1,12:$V2,14:$V3,20:$V4,24:$V5,25:11,26:$V6,27:$V7,28:$V8,33:$V9,35:$Va,37:$Vb},{2:12,4:46,6:3,7:4,8:$V0,11:$V1,12:$V2,14:$V3,20:$V4,24:$V5,25:11,26:$V6,27:$V7,28:$V8,33:$V9,35:$Va,37:$Vb},{2:12,4:47,6:3,7:4,8:$V0,11:$V1,12:$V2,14:$V3,20:$V4,24:$V5,25:11,26:$V6,27:$V7,28:$V8,33:$V9,35:$Va,37:$Vb},{2:12,4:50,6:3,7:4,8:$V0,10:[1,48],11:$V1,12:$V2,14:$V3,18:[1,49],20:$V4,24:$V5,25:11,26:$V6,27:$V7,28:$V8,33:$V9,35:$Va,37:$Vb},{2:12,4:52,6:3,7:4,8:$V0,10:[1,51],11:$V1,12:$V2,14:$V3,20:$V4,24:$V5,25:11,26:$V6,27:$V7,28:$V8,33:$V9,35:$Va,37:$Vb},{2:12,4:53,6:3,7:4,8:$V0,11:$V1,12:$V2,14:$V3,20:$V4,24:$V5,25:11,26:$V6,27:$V7,28:$V8,33:$V9,35:$Va,37:$Vb},{2:12,4:54,6:3,7:4,8:$V0,11:$V1,12:$V2,14:$V3,20:$V4,24:$V5,25:11,26:$V6,27:$V7,28:$V8,33:$V9,35:$Va,37:$Vb},{2:12,4:55,6:3,7:4,8:$V0,11:$V1,12:$V2,14:$V3,20:$V4,24:$V5,25:11,26:$V6,27:$V7,28:$V8,33:$V9,35:$Va,37:$Vb},{2:12,4:56,6:3,7:4,8:$V0,11:$V1,12:$V2,14:$V3,20:$V4,24:$V5,25:11,26:$V6,27:$V7,28:$V8,33:$V9,35:$Va,37:$Vb},{2:12,4:57,6:3,7:4,8:$V0,11:$V1,12:$V2,14:$V3,20:$V4,24:$V5,25:11,26:$V6,27:$V7,28:$V8,33:$V9,35:$Va,37:$Vb},{33:[1,58]},o($Vp,[2,48]),{9:$Vc,10:$Vd,11:$Ve,13:[1,59],17:$Vf,18:$Vg,19:$Vh,20:$Vi,21:$Vj,22:$Vk,23:$Vl},o($Vm,[2,9]),{15:[1,60],31:$Vq,32:$Vr},o($Vs,[2,40],{9:$Vc,10:$Vd,11:$Ve,17:$Vf,18:$Vg,19:$Vh,20:$Vi,21:$Vj,22:$Vk,23:$Vl}),o($Vs,[2,41]),o($Vt,[2,21],{9:$Vc,21:$Vj,22:$Vk,23:$Vl}),o($Vt,[2,22],{9:$Vc,21:$Vj,22:$Vk,23:$Vl}),{2:12,4:35,6:3,7:4,8:$V0,11:$V1,12:$V2,13:[1,63],14:$V3,16:64,20:$V4,24:$V5,25:11,26:$V6,27:$V7,28:$V8,30:$Vn,33:$V9,35:$Va,37:$Vb},o($Vm,[2,27]),{35:[1,65]},{26:[1,66],27:[1,67],28:[1,68]},{26:[1,69],27:[1,70],28:[1,71]},{26:[1,72],27:[1,73],28:[1,74]},o($Vm,[2,5]),o([5,10,13,15,31,32],[2,6],{9:$Vc,11:$Ve,17:$Vf,18:$Vg,19:$Vh,20:$Vi,21:$Vj,22:$Vk,23:$Vl}),o($Vt,[2,7],{9:$Vc,21:$Vj,22:$Vk,23:$Vl}),{2:12,4:75,6:3,7:4,8:$V0,11:$V1,12:$V2,14:$V3,20:$V4,24:$V5,25:11,26:$V6,27:$V7,28:$V8,33:$V9,35:$Va,37:$Vb},{2:12,4:76,6:3,7:4,8:$V0,11:$V1,12:$V2,14:$V3,20:$V4,24:$V5,25:11,26:$V6,27:$V7,28:$V8,33:$V9,35:$Va,37:$Vb},o($Vu,[2,16],{9:$Vc,11:$Ve,20:$Vi,21:$Vj,22:$Vk,23:$Vl}),{2:12,4:77,6:3,7:4,8:$V0,11:$V1,12:$V2,14:$V3,20:$V4,24:$V5,25:11,26:$V6,27:$V7,28:$V8,33:$V9,35:$Va,37:$Vb},o($Vu,[2,15],{9:$Vc,11:$Ve,20:$Vi,21:$Vj,22:$Vk,23:$Vl}),o([5,10,13,15,19,31,32],[2,14],{9:$Vc,11:$Ve,17:$Vf,18:$Vg,20:$Vi,21:$Vj,22:$Vk,23:$Vl}),o($Vt,[2,17],{9:$Vc,21:$Vj,22:$Vk,23:$Vl}),o($Vv,[2,18],{9:$Vc,23:$Vl}),o($Vv,[2,19],{9:$Vc,23:$Vl}),o([5,10,11,13,15,17,18,19,20,21,22,23,31,32],[2,20],{9:$Vc}),o($Vo,[2,45]),o($Vm,[2,8]),o($Vm,[2,10]),{2:12,4:78,6:3,7:4,8:$V0,11:$V1,12:$V2,14:$V3,20:$V4,24:$V5,25:11,26:$V6,27:$V7,28:$V8,33:$V9,35:$Va,37:$Vb},{2:12,4:79,6:3,7:4,8:$V0,11:$V1,12:$V2,14:$V3,20:$V4,24:$V5,25:11,26:$V6,27:$V7,28:$V8,33:$V9,35:$Va,37:$Vb},o($Vm,[2,23]),{13:[1,80],31:$Vq,32:$Vr},o($Vp,[2,47]),o($Vm,[2,31]),o($Vm,[2,32]),o($Vm,[2,33]),o($Vm,[2,34]),o($Vm,[2,35]),o($Vm,[2,36]),o($Vm,[2,37]),o($Vm,[2,38]),o($Vm,[2,39]),o($Vu,[2,11],{9:$Vc,11:$Ve,20:$Vi,21:$Vj,22:$Vk,23:$Vl}),o($Vu,[2,13],{9:$Vc,11:$Ve,20:$Vi,21:$Vj,22:$Vk,23:$Vl}),o($Vu,[2,12],{9:$Vc,11:$Ve,20:$Vi,21:$Vj,22:$Vk,23:$Vl}),o($Vs,[2,42],{9:$Vc,10:$Vd,11:$Ve,17:$Vf,18:$Vg,19:$Vh,20:$Vi,21:$Vj,22:$Vk,23:$Vl}),o($Vs,[2,43],{9:$Vc,10:$Vd,11:$Ve,17:$Vf,18:$Vg,19:$Vh,20:$Vi,21:$Vj,22:$Vk,23:$Vl}),o($Vm,[2,24])],
-    defaultActions: {19:[2,1]},
-    parseError: function parseError (str, hash) {
-        if (hash.recoverable) {
-            this.trace(str);
-        } else {
-            var error = new Error(str);
-            error.hash = hash;
-            throw error;
+    { 1: [3] },
+    {
+      5: [1, 18],
+      9: $Vb,
+      10: $Vc,
+      11: $Vd,
+      14: $Ve,
+      15: $Vf,
+      16: $Vg,
+      17: $Vh,
+      18: $Vi,
+      19: $Vj,
+      20: $Vk,
+    },
+    o($Vl, [2, 2], { 32: [1, 29] }),
+    o($Vl, [2, 3], { 34: [1, 30] }),
+    o($Vl, [2, 4]),
+    {
+      2: 11,
+      4: 31,
+      6: 3,
+      7: 4,
+      8: $V0,
+      11: $V1,
+      12: $V2,
+      17: $V3,
+      21: $V4,
+      23: 10,
+      24: $V5,
+      25: $V6,
+      26: $V7,
+      31: $V8,
+      33: $V9,
+      35: $Va,
+    },
+    {
+      2: 11,
+      4: 32,
+      6: 3,
+      7: 4,
+      8: $V0,
+      11: $V1,
+      12: $V2,
+      17: $V3,
+      21: $V4,
+      23: 10,
+      24: $V5,
+      25: $V6,
+      26: $V7,
+      31: $V8,
+      33: $V9,
+      35: $Va,
+    },
+    {
+      2: 11,
+      4: 33,
+      6: 3,
+      7: 4,
+      8: $V0,
+      11: $V1,
+      12: $V2,
+      17: $V3,
+      21: $V4,
+      23: 10,
+      24: $V5,
+      25: $V6,
+      26: $V7,
+      31: $V8,
+      33: $V9,
+      35: $Va,
+    },
+    { 12: [1, 34] },
+    o($Vl, [2, 23]),
+    o($Vl, [2, 24], { 2: 35, 35: $Va }),
+    o($Vm, [2, 42]),
+    o($Vn, [2, 44], { 32: [1, 36] }),
+    o($Vl, [2, 26], { 27: [1, 37] }),
+    o($Vl, [2, 27], { 27: [1, 38] }),
+    o($Vl, [2, 28], { 27: [1, 39] }),
+    o([5, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 29, 30, 35], [2, 47]),
+    { 1: [2, 1] },
+    {
+      2: 11,
+      4: 40,
+      6: 3,
+      7: 4,
+      8: $V0,
+      11: $V1,
+      12: $V2,
+      17: $V3,
+      21: $V4,
+      23: 10,
+      24: $V5,
+      25: $V6,
+      26: $V7,
+      31: $V8,
+      33: $V9,
+      35: $Va,
+    },
+    {
+      2: 11,
+      4: 41,
+      6: 3,
+      7: 4,
+      8: $V0,
+      11: $V1,
+      12: $V2,
+      17: $V3,
+      21: $V4,
+      23: 10,
+      24: $V5,
+      25: $V6,
+      26: $V7,
+      31: $V8,
+      33: $V9,
+      35: $Va,
+    },
+    {
+      2: 11,
+      4: 42,
+      6: 3,
+      7: 4,
+      8: $V0,
+      11: $V1,
+      12: $V2,
+      17: $V3,
+      21: $V4,
+      23: 10,
+      24: $V5,
+      25: $V6,
+      26: $V7,
+      31: $V8,
+      33: $V9,
+      35: $Va,
+    },
+    {
+      2: 11,
+      4: 45,
+      6: 3,
+      7: 4,
+      8: $V0,
+      10: [1, 43],
+      11: $V1,
+      12: $V2,
+      15: [1, 44],
+      17: $V3,
+      21: $V4,
+      23: 10,
+      24: $V5,
+      25: $V6,
+      26: $V7,
+      31: $V8,
+      33: $V9,
+      35: $Va,
+    },
+    {
+      2: 11,
+      4: 47,
+      6: 3,
+      7: 4,
+      8: $V0,
+      10: [1, 46],
+      11: $V1,
+      12: $V2,
+      17: $V3,
+      21: $V4,
+      23: 10,
+      24: $V5,
+      25: $V6,
+      26: $V7,
+      31: $V8,
+      33: $V9,
+      35: $Va,
+    },
+    {
+      2: 11,
+      4: 48,
+      6: 3,
+      7: 4,
+      8: $V0,
+      11: $V1,
+      12: $V2,
+      17: $V3,
+      21: $V4,
+      23: 10,
+      24: $V5,
+      25: $V6,
+      26: $V7,
+      31: $V8,
+      33: $V9,
+      35: $Va,
+    },
+    {
+      2: 11,
+      4: 49,
+      6: 3,
+      7: 4,
+      8: $V0,
+      11: $V1,
+      12: $V2,
+      17: $V3,
+      21: $V4,
+      23: 10,
+      24: $V5,
+      25: $V6,
+      26: $V7,
+      31: $V8,
+      33: $V9,
+      35: $Va,
+    },
+    {
+      2: 11,
+      4: 50,
+      6: 3,
+      7: 4,
+      8: $V0,
+      11: $V1,
+      12: $V2,
+      17: $V3,
+      21: $V4,
+      23: 10,
+      24: $V5,
+      25: $V6,
+      26: $V7,
+      31: $V8,
+      33: $V9,
+      35: $Va,
+    },
+    {
+      2: 11,
+      4: 51,
+      6: 3,
+      7: 4,
+      8: $V0,
+      11: $V1,
+      12: $V2,
+      17: $V3,
+      21: $V4,
+      23: 10,
+      24: $V5,
+      25: $V6,
+      26: $V7,
+      31: $V8,
+      33: $V9,
+      35: $Va,
+    },
+    {
+      2: 11,
+      4: 52,
+      6: 3,
+      7: 4,
+      8: $V0,
+      11: $V1,
+      12: $V2,
+      17: $V3,
+      21: $V4,
+      23: 10,
+      24: $V5,
+      25: $V6,
+      26: $V7,
+      31: $V8,
+      33: $V9,
+      35: $Va,
+    },
+    { 31: [1, 53] },
+    o($Vn, [2, 46]),
+    {
+      9: $Vb,
+      10: $Vc,
+      11: $Vd,
+      13: [1, 54],
+      14: $Ve,
+      15: $Vf,
+      16: $Vg,
+      17: $Vh,
+      18: $Vi,
+      19: $Vj,
+      20: $Vk,
+    },
+    o($Vo, [2, 19], { 9: $Vb, 18: $Vi, 19: $Vj, 20: $Vk }),
+    o($Vo, [2, 20], { 9: $Vb, 18: $Vi, 19: $Vj, 20: $Vk }),
+    {
+      2: 11,
+      4: 57,
+      6: 3,
+      7: 4,
+      8: $V0,
+      11: $V1,
+      12: $V2,
+      13: [1, 55],
+      17: $V3,
+      21: $V4,
+      22: 56,
+      23: 10,
+      24: $V5,
+      25: $V6,
+      26: $V7,
+      28: [1, 58],
+      31: $V8,
+      33: $V9,
+      35: $Va,
+    },
+    o($Vl, [2, 25]),
+    { 33: [1, 59] },
+    { 24: [1, 60], 25: [1, 61], 26: [1, 62] },
+    { 24: [1, 63], 25: [1, 64], 26: [1, 65] },
+    { 24: [1, 66], 25: [1, 67], 26: [1, 68] },
+    o($Vl, [2, 5]),
+    o([5, 10, 13, 29, 30], [2, 6], {
+      9: $Vb,
+      11: $Vd,
+      14: $Ve,
+      15: $Vf,
+      16: $Vg,
+      17: $Vh,
+      18: $Vi,
+      19: $Vj,
+      20: $Vk,
+    }),
+    o($Vo, [2, 7], { 9: $Vb, 18: $Vi, 19: $Vj, 20: $Vk }),
+    {
+      2: 11,
+      4: 69,
+      6: 3,
+      7: 4,
+      8: $V0,
+      11: $V1,
+      12: $V2,
+      17: $V3,
+      21: $V4,
+      23: 10,
+      24: $V5,
+      25: $V6,
+      26: $V7,
+      31: $V8,
+      33: $V9,
+      35: $Va,
+    },
+    {
+      2: 11,
+      4: 70,
+      6: 3,
+      7: 4,
+      8: $V0,
+      11: $V1,
+      12: $V2,
+      17: $V3,
+      21: $V4,
+      23: 10,
+      24: $V5,
+      25: $V6,
+      26: $V7,
+      31: $V8,
+      33: $V9,
+      35: $Va,
+    },
+    o($Vp, [2, 14], { 9: $Vb, 11: $Vd, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }),
+    {
+      2: 11,
+      4: 71,
+      6: 3,
+      7: 4,
+      8: $V0,
+      11: $V1,
+      12: $V2,
+      17: $V3,
+      21: $V4,
+      23: 10,
+      24: $V5,
+      25: $V6,
+      26: $V7,
+      31: $V8,
+      33: $V9,
+      35: $Va,
+    },
+    o($Vp, [2, 13], { 9: $Vb, 11: $Vd, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }),
+    o([5, 10, 13, 16, 29, 30], [2, 12], {
+      9: $Vb,
+      11: $Vd,
+      14: $Ve,
+      15: $Vf,
+      17: $Vh,
+      18: $Vi,
+      19: $Vj,
+      20: $Vk,
+    }),
+    o($Vo, [2, 15], { 9: $Vb, 18: $Vi, 19: $Vj, 20: $Vk }),
+    o($Vq, [2, 16], { 9: $Vb, 20: $Vk }),
+    o($Vq, [2, 17], { 9: $Vb, 20: $Vk }),
+    o([5, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 29, 30], [2, 18], { 9: $Vb }),
+    o($Vm, [2, 43]),
+    o($Vl, [2, 8]),
+    o($Vl, [2, 21]),
+    { 13: [1, 72], 29: [1, 73], 30: [1, 74] },
+    o($Vr, [2, 38], {
+      9: $Vb,
+      10: $Vc,
+      11: $Vd,
+      14: $Ve,
+      15: $Vf,
+      16: $Vg,
+      17: $Vh,
+      18: $Vi,
+      19: $Vj,
+      20: $Vk,
+    }),
+    o($Vr, [2, 39]),
+    o($Vn, [2, 45]),
+    o($Vl, [2, 29]),
+    o($Vl, [2, 30]),
+    o($Vl, [2, 31]),
+    o($Vl, [2, 32]),
+    o($Vl, [2, 33]),
+    o($Vl, [2, 34]),
+    o($Vl, [2, 35]),
+    o($Vl, [2, 36]),
+    o($Vl, [2, 37]),
+    o($Vp, [2, 9], { 9: $Vb, 11: $Vd, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }),
+    o($Vp, [2, 11], { 9: $Vb, 11: $Vd, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }),
+    o($Vp, [2, 10], { 9: $Vb, 11: $Vd, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }),
+    o($Vl, [2, 22]),
+    {
+      2: 11,
+      4: 75,
+      6: 3,
+      7: 4,
+      8: $V0,
+      11: $V1,
+      12: $V2,
+      17: $V3,
+      21: $V4,
+      23: 10,
+      24: $V5,
+      25: $V6,
+      26: $V7,
+      31: $V8,
+      33: $V9,
+      35: $Va,
+    },
+    {
+      2: 11,
+      4: 76,
+      6: 3,
+      7: 4,
+      8: $V0,
+      11: $V1,
+      12: $V2,
+      17: $V3,
+      21: $V4,
+      23: 10,
+      24: $V5,
+      25: $V6,
+      26: $V7,
+      31: $V8,
+      33: $V9,
+      35: $Va,
+    },
+    o($Vr, [2, 40], {
+      9: $Vb,
+      10: $Vc,
+      11: $Vd,
+      14: $Ve,
+      15: $Vf,
+      16: $Vg,
+      17: $Vh,
+      18: $Vi,
+      19: $Vj,
+      20: $Vk,
+    }),
+    o($Vr, [2, 41], {
+      9: $Vb,
+      10: $Vc,
+      11: $Vd,
+      14: $Ve,
+      15: $Vf,
+      16: $Vg,
+      17: $Vh,
+      18: $Vi,
+      19: $Vj,
+      20: $Vk,
+    }),
+  ],
+  defaultActions: { 18: [2, 1] },
+  parseError: function parseError(str, hash) {
+    if (hash.recoverable) {
+      this.trace(str);
+    } else {
+      var error = new Error(str);
+      error.hash = hash;
+      throw error;
+    }
+  },
+  parse: function parse(input) {
+    var self = this,
+      stack = [0],
+      tstack = [], // token stack
+      vstack = [null], // semantic value stack
+      lstack = [], // location stack
+      table = this.table,
+      yytext = '',
+      yylineno = 0,
+      yyleng = 0,
+      recovering = 0,
+      TERROR = 2,
+      EOF = 1;
+
+    var args = lstack.slice.call(arguments, 1);
+
+    //this.reductionCount = this.shiftCount = 0;
+
+    var lexer = Object.create(this.lexer);
+    var sharedState = { yy: {} };
+    // copy state
+    for (var k in this.yy) {
+      if (Object.prototype.hasOwnProperty.call(this.yy, k)) {
+        sharedState.yy[k] = this.yy[k];
+      }
+    }
+
+    lexer.setInput(input, sharedState.yy);
+    sharedState.yy.lexer = lexer;
+    sharedState.yy.parser = this;
+    if (typeof lexer.yylloc == 'undefined') {
+      lexer.yylloc = {};
+    }
+    var yyloc = lexer.yylloc;
+    lstack.push(yyloc);
+
+    var ranges = lexer.options && lexer.options.ranges;
+
+    if (typeof sharedState.yy.parseError === 'function') {
+      this.parseError = sharedState.yy.parseError;
+    } else {
+      this.parseError = Object.getPrototypeOf(this).parseError;
+    }
+
+    function popStack(n) {
+      stack.length = stack.length - 2 * n;
+      vstack.length = vstack.length - n;
+      lstack.length = lstack.length - n;
+    }
+
+    var lex = function () {
+      var token;
+      token = lexer.lex() || EOF;
+      // if token isn't its numeric value, convert
+      if (typeof token !== 'number') {
+        token = self.symbols_[token] || token;
+      }
+      return token;
+    };
+
+    var symbol,
+      preErrorSymbol,
+      state,
+      action,
+      a,
+      r,
+      yyval = {},
+      p,
+      len,
+      newState,
+      expected;
+    while (true) {
+      // retreive state number from top of stack
+      state = stack[stack.length - 1];
+
+      // use default actions if available
+      if (this.defaultActions[state]) {
+        action = this.defaultActions[state];
+      } else {
+        if (symbol === null || typeof symbol == 'undefined') {
+          symbol = lex();
         }
-    },
-    parse: function parse (input) {
-        var self = this,
-            stack = [0],
-            tstack = [], // token stack
-            vstack = [null], // semantic value stack
-            lstack = [], // location stack
-            table = this.table,
-            yytext = '',
-            yylineno = 0,
-            yyleng = 0,
-            recovering = 0,
-            TERROR = 2,
-            EOF = 1;
-    
-        var args = lstack.slice.call(arguments, 1);
-    
-        //this.reductionCount = this.shiftCount = 0;
-    
-        var lexer = Object.create(this.lexer);
-        var sharedState = { yy: {} };
-        // copy state
-        for (var k in this.yy) {
-          if (Object.prototype.hasOwnProperty.call(this.yy, k)) {
-            sharedState.yy[k] = this.yy[k];
+        // read action for current state and first input
+        action = table[state] && table[state][symbol];
+      }
+
+      // handle parse error
+      if (typeof action === 'undefined' || !action.length || !action[0]) {
+        var error_rule_depth;
+        var errStr = '';
+
+        // Return the rule stack depth where the nearest error rule can be found.
+        // Return FALSE when no error recovery rule was found.
+        function locateNearestErrorRecoveryRule(state) {
+          var stack_probe = stack.length - 1;
+          var depth = 0;
+
+          // try to recover from error
+          for (;;) {
+            // check for error recovery rule in this state
+            if (TERROR.toString() in table[state]) {
+              return depth;
+            }
+            if (state === 0 || stack_probe < 2) {
+              return false; // No suitable error recovery rule available.
+            }
+            stack_probe -= 2; // popStack(1): [symbol, action]
+            state = stack[stack_probe];
+            ++depth;
           }
         }
-    
-        lexer.setInput(input, sharedState.yy);
-        sharedState.yy.lexer = lexer;
-        sharedState.yy.parser = this;
-        if (typeof lexer.yylloc == 'undefined') {
-            lexer.yylloc = {};
+
+        if (!recovering) {
+          // first see if there's any chance at hitting an error recovery rule:
+          error_rule_depth = locateNearestErrorRecoveryRule(state);
+
+          // Report error
+          expected = [];
+          for (p in table[state]) {
+            if (this.terminals_[p] && p > TERROR) {
+              expected.push("'" + this.terminals_[p] + "'");
+            }
+          }
+          if (lexer.showPosition) {
+            errStr =
+              'Parse error on line ' +
+              (yylineno + 1) +
+              ':\n' +
+              lexer.showPosition() +
+              '\nExpecting ' +
+              expected.join(', ') +
+              ", got '" +
+              (this.terminals_[symbol] || symbol) +
+              "'";
+          } else {
+            errStr =
+              'Parse error on line ' +
+              (yylineno + 1) +
+              ': Unexpected ' +
+              (symbol == EOF
+                ? 'end of input'
+                : "'" + (this.terminals_[symbol] || symbol) + "'");
+          }
+          this.parseError(errStr, {
+            text: lexer.match,
+            token: this.terminals_[symbol] || symbol,
+            line: lexer.yylineno,
+            loc: yyloc,
+            expected: expected,
+            recoverable: error_rule_depth !== false,
+          });
+        } else if (preErrorSymbol !== EOF) {
+          error_rule_depth = locateNearestErrorRecoveryRule(state);
         }
-        var yyloc = lexer.yylloc;
-        lstack.push(yyloc);
-    
-        var ranges = lexer.options && lexer.options.ranges;
-    
-        if (typeof sharedState.yy.parseError === 'function') {
-            this.parseError = sharedState.yy.parseError;
-        } else {
-            this.parseError = Object.getPrototypeOf(this).parseError;
+
+        // just recovered from another error
+        if (recovering == 3) {
+          if (symbol === EOF || preErrorSymbol === EOF) {
+            throw new Error(
+              errStr ||
+                'Parsing halted while starting to recover from another error.'
+            );
+          }
+
+          // discard current lookahead and grab another
+          yyleng = lexer.yyleng;
+          yytext = lexer.yytext;
+          yylineno = lexer.yylineno;
+          yyloc = lexer.yylloc;
+          symbol = lex();
         }
-    
-        function popStack (n) {
-            stack.length = stack.length - 2 * n;
-            vstack.length = vstack.length - n;
-            lstack.length = lstack.length - n;
+
+        // try to recover from error
+        if (error_rule_depth === false) {
+          throw new Error(
+            errStr ||
+              'Parsing halted. No suitable error recovery rule available.'
+          );
         }
-    
-    _token_stack:
-        var lex = function () {
-            var token;
-            token = lexer.lex() || EOF;
-            // if token isn't its numeric value, convert
-            if (typeof token !== 'number') {
-                token = self.symbols_[token] || token;
+        popStack(error_rule_depth);
+
+        preErrorSymbol = symbol == TERROR ? null : symbol; // save the lookahead token
+        symbol = TERROR; // insert generic error symbol as new lookahead
+        state = stack[stack.length - 1];
+        action = table[state] && table[state][TERROR];
+        recovering = 3; // allow 3 real symbols to be shifted before reporting a new error
+      }
+
+      // this shouldn't happen, unless resolve defaults are off
+      if (action[0] instanceof Array && action.length > 1) {
+        throw new Error(
+          'Parse Error: multiple actions possible at state: ' +
+            state +
+            ', token: ' +
+            symbol
+        );
+      }
+
+      switch (action[0]) {
+        case 1: // shift
+          //this.shiftCount++;
+
+          stack.push(symbol);
+          vstack.push(lexer.yytext);
+          lstack.push(lexer.yylloc);
+          stack.push(action[1]); // push state
+          symbol = null;
+          if (!preErrorSymbol) {
+            // normal execution/no error
+            yyleng = lexer.yyleng;
+            yytext = lexer.yytext;
+            yylineno = lexer.yylineno;
+            yyloc = lexer.yylloc;
+            if (recovering > 0) {
+              recovering--;
             }
-            return token;
-        }
-    
-        var symbol, preErrorSymbol, state, action, a, r, yyval = {}, p, len, newState, expected;
-        while (true) {
-            // retreive state number from top of stack
-            state = stack[stack.length - 1];
-    
-            // use default actions if available
-            if (this.defaultActions[state]) {
-                action = this.defaultActions[state];
-            } else {
-                if (symbol === null || typeof symbol == 'undefined') {
-                    symbol = lex();
-                }
-                // read action for current state and first input
-                action = table[state] && table[state][symbol];
-            }
-    
-    _handle_error:
-            // handle parse error
-            if (typeof action === 'undefined' || !action.length || !action[0]) {
-                var error_rule_depth;
-                var errStr = '';
-    
-                // Return the rule stack depth where the nearest error rule can be found.
-                // Return FALSE when no error recovery rule was found.
-                function locateNearestErrorRecoveryRule(state) {
-                    var stack_probe = stack.length - 1;
-                    var depth = 0;
-    
-                    // try to recover from error
-                    for(;;) {
-                        // check for error recovery rule in this state
-                        if ((TERROR.toString()) in table[state]) {
-                            return depth;
-                        }
-                        if (state === 0 || stack_probe < 2) {
-                            return false; // No suitable error recovery rule available.
-                        }
-                        stack_probe -= 2; // popStack(1): [symbol, action]
-                        state = stack[stack_probe];
-                        ++depth;
-                    }
-                }
-    
-                if (!recovering) {
-                    // first see if there's any chance at hitting an error recovery rule:
-                    error_rule_depth = locateNearestErrorRecoveryRule(state);
-    
-                    // Report error
-                    expected = [];
-                    for (p in table[state]) {
-                        if (this.terminals_[p] && p > TERROR) {
-                            expected.push("'"+this.terminals_[p]+"'");
-                        }
-                    }
-                    if (lexer.showPosition) {
-                        errStr = 'Parse error on line '+(yylineno+1)+":\n"+lexer.showPosition()+"\nExpecting "+expected.join(', ') + ", got '" + (this.terminals_[symbol] || symbol)+ "'";
-                    } else {
-                        errStr = 'Parse error on line '+(yylineno+1)+": Unexpected " +
-                                      (symbol == EOF ? "end of input" :
-                                                  ("'"+(this.terminals_[symbol] || symbol)+"'"));
-                    }
-                    this.parseError(errStr, {
-                        text: lexer.match,
-                        token: this.terminals_[symbol] || symbol,
-                        line: lexer.yylineno,
-                        loc: yyloc,
-                        expected: expected,
-                        recoverable: (error_rule_depth !== false)
-                    });
-                } else if (preErrorSymbol !== EOF) {
-                    error_rule_depth = locateNearestErrorRecoveryRule(state);
-                }
-    
-                // just recovered from another error
-                if (recovering == 3) {
-                    if (symbol === EOF || preErrorSymbol === EOF) {
-                        throw new Error(errStr || 'Parsing halted while starting to recover from another error.');
-                    }
-    
-                    // discard current lookahead and grab another
-                    yyleng = lexer.yyleng;
-                    yytext = lexer.yytext;
-                    yylineno = lexer.yylineno;
-                    yyloc = lexer.yylloc;
-                    symbol = lex();
-                }
-    
-                // try to recover from error
-                if (error_rule_depth === false) {
-                    throw new Error(errStr || 'Parsing halted. No suitable error recovery rule available.');
-                }
-                popStack(error_rule_depth);
-    
-                preErrorSymbol = (symbol == TERROR ? null : symbol); // save the lookahead token
-                symbol = TERROR;         // insert generic error symbol as new lookahead
-                state = stack[stack.length-1];
-                action = table[state] && table[state][TERROR];
-                recovering = 3; // allow 3 real symbols to be shifted before reporting a new error
-            }
-    
-            // this shouldn't happen, unless resolve defaults are off
-            if (action[0] instanceof Array && action.length > 1) {
-                throw new Error('Parse Error: multiple actions possible at state: '+state+', token: '+symbol);
-            }
-    
-            switch (action[0]) {
-                case 1: // shift
-                    //this.shiftCount++;
-    
-                    stack.push(symbol);
-                    vstack.push(lexer.yytext);
-                    lstack.push(lexer.yylloc);
-                    stack.push(action[1]); // push state
-                    symbol = null;
-                    if (!preErrorSymbol) { // normal execution/no error
-                        yyleng = lexer.yyleng;
-                        yytext = lexer.yytext;
-                        yylineno = lexer.yylineno;
-                        yyloc = lexer.yylloc;
-                        if (recovering > 0) {
-                            recovering--;
-                        }
-                    } else {
-                        // error just occurred, resume old lookahead f/ before error
-                        symbol = preErrorSymbol;
-                        preErrorSymbol = null;
-                    }
-                    break;
-    
-                case 2:
-                    // reduce
-                    //this.reductionCount++;
-    
-                    len = this.productions_[action[1]][1];
-    
-                    // perform semantic action
-                    yyval.$ = vstack[vstack.length-len]; // default to $$ = $1
-                    // default location, uses first token for firsts, last for lasts
-                    yyval._$ = {
-                        first_line: lstack[lstack.length-(len||1)].first_line,
-                        last_line: lstack[lstack.length-1].last_line,
-                        first_column: lstack[lstack.length-(len||1)].first_column,
-                        last_column: lstack[lstack.length-1].last_column
-                    };
-                    if (ranges) {
-                      yyval._$.range = [lstack[lstack.length-(len||1)].range[0], lstack[lstack.length-1].range[1]];
-                    }
-                    r = this.performAction.apply(yyval, [yytext, yyleng, yylineno, sharedState.yy, action[1], vstack, lstack].concat(args));
-    
-                    if (typeof r !== 'undefined') {
-                        return r;
-                    }
-    
-                    // pop off stack
-                    if (len) {
-                        stack = stack.slice(0,-1*len*2);
-                        vstack = vstack.slice(0, -1*len);
-                        lstack = lstack.slice(0, -1*len);
-                    }
-    
-                    stack.push(this.productions_[action[1]][0]);    // push nonterminal (reduce)
-                    vstack.push(yyval.$);
-                    lstack.push(yyval._$);
-                    // goto new state = table[STATE][NONTERMINAL]
-                    newState = table[stack[stack.length-2]][stack[stack.length-1]];
-                    stack.push(newState);
-                    break;
-    
-                case 3:
-                    // accept
-                    return true;
-            }
-    
-        }
-    
-        return true;
-    }};
-    
-    /* generated by jison-lex 0.3.4 */
-    var lexer = (function(){
-    var lexer = ({
-    
-    EOF:1,
-    
-    parseError:function parseError(str, hash) {
-            if (this.yy.parser) {
-                this.yy.parser.parseError(str, hash);
-            } else {
-                throw new Error(str);
-            }
-        },
-    
+          } else {
+            // error just occurred, resume old lookahead f/ before error
+            symbol = preErrorSymbol;
+            preErrorSymbol = null;
+          }
+          break;
+
+        case 2:
+          // reduce
+          //this.reductionCount++;
+
+          len = this.productions_[action[1]][1];
+
+          // perform semantic action
+          yyval.$ = vstack[vstack.length - len]; // default to $$ = $1
+          // default location, uses first token for firsts, last for lasts
+          yyval._$ = {
+            first_line: lstack[lstack.length - (len || 1)].first_line,
+            last_line: lstack[lstack.length - 1].last_line,
+            first_column: lstack[lstack.length - (len || 1)].first_column,
+            last_column: lstack[lstack.length - 1].last_column,
+          };
+          if (ranges) {
+            yyval._$.range = [
+              lstack[lstack.length - (len || 1)].range[0],
+              lstack[lstack.length - 1].range[1],
+            ];
+          }
+          r = this.performAction.apply(
+            yyval,
+            [
+              yytext,
+              yyleng,
+              yylineno,
+              sharedState.yy,
+              action[1],
+              vstack,
+              lstack,
+            ].concat(args)
+          );
+
+          if (typeof r !== 'undefined') {
+            return r;
+          }
+
+          // pop off stack
+          if (len) {
+            stack = stack.slice(0, -1 * len * 2);
+            vstack = vstack.slice(0, -1 * len);
+            lstack = lstack.slice(0, -1 * len);
+          }
+
+          stack.push(this.productions_[action[1]][0]); // push nonterminal (reduce)
+          vstack.push(yyval.$);
+          lstack.push(yyval._$);
+          // goto new state = table[STATE][NONTERMINAL]
+          newState = table[stack[stack.length - 2]][stack[stack.length - 1]];
+          stack.push(newState);
+          break;
+
+        case 3:
+          // accept
+          return true;
+      }
+    }
+
+    return true;
+  },
+};
+
+/* generated by jison-lex 0.3.4 */
+var lexer = (function () {
+  var lexer = {
+    EOF: 1,
+
+    parseError: function parseError(str, hash) {
+      if (this.yy.parser) {
+        this.yy.parser.parseError(str, hash);
+      } else {
+        throw new Error(str);
+      }
+    },
+
     // resets the lexer, sets new input
-    setInput:function (input, yy) {
-            this.yy = yy || this.yy || {};
-            this._input = input;
-            this._more = this._backtrack = this.done = false;
-            this.yylineno = this.yyleng = 0;
-            this.yytext = this.matched = this.match = '';
-            this.conditionStack = ['INITIAL'];
-            this.yylloc = {
-                first_line: 1,
-                first_column: 0,
-                last_line: 1,
-                last_column: 0
-            };
-            if (this.options.ranges) {
-                this.yylloc.range = [0,0];
-            }
-            this.offset = 0;
-            return this;
-        },
-    
-    // consumes and returns one char from the input
-    input:function () {
-            var ch = this._input[0];
-            this.yytext += ch;
-            this.yyleng++;
-            this.offset++;
-            this.match += ch;
-            this.matched += ch;
-            var lines = ch.match(/(?:\r\n?|\n).*/g);
-            if (lines) {
-                this.yylineno++;
-                this.yylloc.last_line++;
-            } else {
-                this.yylloc.last_column++;
-            }
-            if (this.options.ranges) {
-                this.yylloc.range[1]++;
-            }
-    
-            this._input = this._input.slice(1);
-            return ch;
-        },
-    
-    // unshifts one char (or a string) into the input
-    unput:function (ch) {
-            var len = ch.length;
-            var lines = ch.split(/(?:\r\n?|\n)/g);
-    
-            this._input = ch + this._input;
-            this.yytext = this.yytext.substr(0, this.yytext.length - len);
-            //this.yyleng -= len;
-            this.offset -= len;
-            var oldLines = this.match.split(/(?:\r\n?|\n)/g);
-            this.match = this.match.substr(0, this.match.length - 1);
-            this.matched = this.matched.substr(0, this.matched.length - 1);
-    
-            if (lines.length - 1) {
-                this.yylineno -= lines.length - 1;
-            }
-            var r = this.yylloc.range;
-    
-            this.yylloc = {
-                first_line: this.yylloc.first_line,
-                last_line: this.yylineno + 1,
-                first_column: this.yylloc.first_column,
-                last_column: lines ?
-                    (lines.length === oldLines.length ? this.yylloc.first_column : 0)
-                     + oldLines[oldLines.length - lines.length].length - lines[0].length :
-                  this.yylloc.first_column - len
-            };
-    
-            if (this.options.ranges) {
-                this.yylloc.range = [r[0], r[0] + this.yyleng - len];
-            }
-            this.yyleng = this.yytext.length;
-            return this;
-        },
-    
-    // When called from action, caches matched text and appends it on next action
-    more:function () {
-            this._more = true;
-            return this;
-        },
-    
-    // When called from action, signals the lexer that this rule fails to match the input, so the next matching rule (regex) should be tested instead.
-    reject:function () {
-            if (this.options.backtrack_lexer) {
-                this._backtrack = true;
-            } else {
-                return this.parseError('Lexical error on line ' + (this.yylineno + 1) + '. You can only invoke reject() in the lexer when the lexer is of the backtracking persuasion (options.backtrack_lexer = true).\n' + this.showPosition(), {
-                    text: "",
-                    token: null,
-                    line: this.yylineno
-                });
-    
-            }
-            return this;
-        },
-    
-    // retain first n characters of the match
-    less:function (n) {
-            this.unput(this.match.slice(n));
-        },
-    
-    // displays already matched input, i.e. for error messages
-    pastInput:function () {
-            var past = this.matched.substr(0, this.matched.length - this.match.length);
-            return (past.length > 20 ? '...':'') + past.substr(-20).replace(/\n/g, "");
-        },
-    
-    // displays upcoming input, i.e. for error messages
-    upcomingInput:function () {
-            var next = this.match;
-            if (next.length < 20) {
-                next += this._input.substr(0, 20-next.length);
-            }
-            return (next.substr(0,20) + (next.length > 20 ? '...' : '')).replace(/\n/g, "");
-        },
-    
-    // displays the character position where the lexing error occurred, i.e. for error messages
-    showPosition:function () {
-            var pre = this.pastInput();
-            var c = new Array(pre.length + 1).join("-");
-            return pre + this.upcomingInput() + "\n" + c + "^";
-        },
-    
-    // test the lexed token: return FALSE when not a match, otherwise return token
-    test_match:function(match, indexed_rule) {
-            var token,
-                lines,
-                backup;
-    
-            if (this.options.backtrack_lexer) {
-                // save context
-                backup = {
-                    yylineno: this.yylineno,
-                    yylloc: {
-                        first_line: this.yylloc.first_line,
-                        last_line: this.last_line,
-                        first_column: this.yylloc.first_column,
-                        last_column: this.yylloc.last_column
-                    },
-                    yytext: this.yytext,
-                    match: this.match,
-                    matches: this.matches,
-                    matched: this.matched,
-                    yyleng: this.yyleng,
-                    offset: this.offset,
-                    _more: this._more,
-                    _input: this._input,
-                    yy: this.yy,
-                    conditionStack: this.conditionStack.slice(0),
-                    done: this.done
-                };
-                if (this.options.ranges) {
-                    backup.yylloc.range = this.yylloc.range.slice(0);
-                }
-            }
-    
-            lines = match[0].match(/(?:\r\n?|\n).*/g);
-            if (lines) {
-                this.yylineno += lines.length;
-            }
-            this.yylloc = {
-                first_line: this.yylloc.last_line,
-                last_line: this.yylineno + 1,
-                first_column: this.yylloc.last_column,
-                last_column: lines ?
-                             lines[lines.length - 1].length - lines[lines.length - 1].match(/\r?\n?/)[0].length :
-                             this.yylloc.last_column + match[0].length
-            };
-            this.yytext += match[0];
-            this.match += match[0];
-            this.matches = match;
-            this.yyleng = this.yytext.length;
-            if (this.options.ranges) {
-                this.yylloc.range = [this.offset, this.offset += this.yyleng];
-            }
-            this._more = false;
-            this._backtrack = false;
-            this._input = this._input.slice(match[0].length);
-            this.matched += match[0];
-            token = this.performAction.call(this, this.yy, this, indexed_rule, this.conditionStack[this.conditionStack.length - 1]);
-            if (this.done && this._input) {
-                this.done = false;
-            }
-            if (token) {
-                return token;
-            } else if (this._backtrack) {
-                // recover context
-                for (var k in backup) {
-                    this[k] = backup[k];
-                }
-                return false; // rule action called reject() implying the next rule should be tested instead.
-            }
-            return false;
-        },
-    
-    // return next match in input
-    next:function () {
-            if (this.done) {
-                return this.EOF;
-            }
-            if (!this._input) {
-                this.done = true;
-            }
-    
-            var token,
-                match,
-                tempMatch,
-                index;
-            if (!this._more) {
-                this.yytext = '';
-                this.match = '';
-            }
-            var rules = this._currentRules();
-            for (var i = 0; i < rules.length; i++) {
-                tempMatch = this._input.match(this.rules[rules[i]]);
-                if (tempMatch && (!match || tempMatch[0].length > match[0].length)) {
-                    match = tempMatch;
-                    index = i;
-                    if (this.options.backtrack_lexer) {
-                        token = this.test_match(tempMatch, rules[i]);
-                        if (token !== false) {
-                            return token;
-                        } else if (this._backtrack) {
-                            match = false;
-                            continue; // rule action called reject() implying a rule MISmatch.
-                        } else {
-                            // else: this is a lexer rule which consumes input without producing a token (e.g. whitespace)
-                            return false;
-                        }
-                    } else if (!this.options.flex) {
-                        break;
-                    }
-                }
-            }
-            if (match) {
-                token = this.test_match(match, rules[index]);
-                if (token !== false) {
-                    return token;
-                }
-                // else: this is a lexer rule which consumes input without producing a token (e.g. whitespace)
-                return false;
-            }
-            if (this._input === "") {
-                return this.EOF;
-            } else {
-                return this.parseError('Lexical error on line ' + (this.yylineno + 1) + '. Unrecognized text.\n' + this.showPosition(), {
-                    text: "",
-                    token: null,
-                    line: this.yylineno
-                });
-            }
-        },
-    
-    // return next match that has a token
-    lex:function lex () {
-            var r = this.next();
-            if (r) {
-                return r;
-            } else {
-                return this.lex();
-            }
-        },
-    
-    // activates a new lexer condition state (pushes the new lexer condition state onto the condition stack)
-    begin:function begin (condition) {
-            this.conditionStack.push(condition);
-        },
-    
-    // pop the previously active lexer condition state off the condition stack
-    popState:function popState () {
-            var n = this.conditionStack.length - 1;
-            if (n > 0) {
-                return this.conditionStack.pop();
-            } else {
-                return this.conditionStack[0];
-            }
-        },
-    
-    // produce the lexer rule set which is active for the currently active lexer condition state
-    _currentRules:function _currentRules () {
-            if (this.conditionStack.length && this.conditionStack[this.conditionStack.length - 1]) {
-                return this.conditions[this.conditionStack[this.conditionStack.length - 1]].rules;
-            } else {
-                return this.conditions["INITIAL"].rules;
-            }
-        },
-    
-    // return the currently active lexer condition state; when an index argument is provided it produces the N-th previous condition state, if available
-    topState:function topState (n) {
-            n = this.conditionStack.length - 1 - Math.abs(n || 0);
-            if (n >= 0) {
-                return this.conditionStack[n];
-            } else {
-                return "INITIAL";
-            }
-        },
-    
-    // alias for begin(condition)
-    pushState:function pushState (condition) {
-            this.begin(condition);
-        },
-    
-    // return the number of states currently on the stack
-    stateStackSize:function stateStackSize() {
-            return this.conditionStack.length;
-        },
-    options: {},
-    performAction: function anonymous(yy,yy_,$avoiding_name_collisions,YY_START) {
-    var YYSTATE=YY_START;
-    switch($avoiding_name_collisions) {
-    case 0:/* skip whitespace */
-    break;
-    case 1:return 8;
-    break;
-    case 2:return 8;
-    break;
-    case 3:return 24;
-    break;
-    case 4:return 37;
-    break;
-    case 5:return 26;
-    break;
-    case 6:return 28;
-    break;
-    case 7:return 28;
-    break;
-    case 8:return 27;
-    break;
-    case 9:return 24;
-    break;
-    case 10:return 33;
-    break;
-    case 11:return 33;
-    break;
-    case 12:return 35;
-    break;
-    case 13:return 30;
-    break;
-    case 14:return 9;
-    break;
-    case 15:return ' ';
-    break;
-    case 16:return 34;
-    break;
-    case 17:return 29;
-    break;
-    case 18:return 31;
-    break;
-    case 19:return 32;
-    break;
-    case 20:return 21;
-    break;
-    case 21:return 22;
-    break;
-    case 22:return 20;
-    break;
-    case 23:return 11;
-    break;
-    case 24:return 23;
-    break;
-    case 25:return 12;
-    break;
-    case 26:return 13;
-    break;
-    case 27:return 18;
-    break;
-    case 28:return 17;
-    break;
-    case 29:return 14;
-    break;
-    case 30:return 15;
-    break;
-    case 31:return 19;
-    break;
-    case 32:return '"';
-    break;
-    case 33:return "'";
-    break;
-    case 34:return "!";
-    break;
-    case 35:return 10;
-    break;
-    case 36:return 36;
-    break;
-    case 37:return '#';
-    break;
-    case 38:return 5;
-    break;
-    }
+    setInput: function (input, yy) {
+      this.yy = yy || this.yy || {};
+      this._input = input;
+      this._more = this._backtrack = this.done = false;
+      this.yylineno = this.yyleng = 0;
+      this.yytext = this.matched = this.match = '';
+      this.conditionStack = ['INITIAL'];
+      this.yylloc = {
+        first_line: 1,
+        first_column: 0,
+        last_line: 1,
+        last_column: 0,
+      };
+      if (this.options.ranges) {
+        this.yylloc.range = [0, 0];
+      }
+      this.offset = 0;
+      return this;
     },
-    rules: [/^(?:\s+)/,/^(?:"(\\["]|[^"])*")/,/^(?:'(\\[']|[^'])*')/,/^(?:[A-Za-z]{1,}[A-Za-z_0-9\.]+(?=[(]))/,/^(?:#[A-Z0-9\/]+(!|\?)?)/,/^(?:\$[A-Za-z]+\$[0-9]+)/,/^(?:\$[A-Za-z]+[0-9]+)/,/^(?:[A-Za-z]+\$[0-9]+)/,/^(?:[A-Za-z]+[0-9]+)/,/^(?:[A-Za-z\.]+(?=[(]))/,/^(?:[A-Za-z]{1,}[A-Za-z_0-9]+)/,/^(?:[A-Za-z_]+)/,/^(?:[0-9]+)/,/^(?:\[(.*)?\])/,/^(?:&)/,/^(?: )/,/^(?:[.])/,/^(?::)/,/^(?:;)/,/^(?:,)/,/^(?:\*)/,/^(?:\/)/,/^(?:-)/,/^(?:\+)/,/^(?:\^)/,/^(?:\()/,/^(?:\))/,/^(?:>)/,/^(?:<)/,/^(?:\{)/,/^(?:\})/,/^(?:NOT\b)/,/^(?:")/,/^(?:')/,/^(?:!)/,/^(?:=)/,/^(?:%)/,/^(?:[#])/,/^(?:$)/],
-    conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38],"inclusive":true}}
-    });
-    return lexer;
-    })();
-    parser.lexer = lexer;
-    function Parser () {
-      this.yy = {};
-    }
-    Parser.prototype = parser;parser.Parser = Parser;
-    return new Parser;
-    })();
-    
-    
-    if (true) {
-    exports.parser = grammarParser;
-    exports.Parser = grammarParser.Parser;
-    exports.parse = function () { return grammarParser.parse.apply(grammarParser, arguments); };
-    }
+
+    // consumes and returns one char from the input
+    input: function () {
+      var ch = this._input[0];
+      this.yytext += ch;
+      this.yyleng++;
+      this.offset++;
+      this.match += ch;
+      this.matched += ch;
+      var lines = ch.match(/(?:\r\n?|\n).*/g);
+      if (lines) {
+        this.yylineno++;
+        this.yylloc.last_line++;
+      } else {
+        this.yylloc.last_column++;
+      }
+      if (this.options.ranges) {
+        this.yylloc.range[1]++;
+      }
+
+      this._input = this._input.slice(1);
+      return ch;
+    },
+
+    // unshifts one char (or a string) into the input
+    unput: function (ch) {
+      var len = ch.length;
+      var lines = ch.split(/(?:\r\n?|\n)/g);
+
+      this._input = ch + this._input;
+      this.yytext = this.yytext.substr(0, this.yytext.length - len);
+      //this.yyleng -= len;
+      this.offset -= len;
+      var oldLines = this.match.split(/(?:\r\n?|\n)/g);
+      this.match = this.match.substr(0, this.match.length - 1);
+      this.matched = this.matched.substr(0, this.matched.length - 1);
+
+      if (lines.length - 1) {
+        this.yylineno -= lines.length - 1;
+      }
+      var r = this.yylloc.range;
+
+      this.yylloc = {
+        first_line: this.yylloc.first_line,
+        last_line: this.yylineno + 1,
+        first_column: this.yylloc.first_column,
+        last_column: lines
+          ? (lines.length === oldLines.length ? this.yylloc.first_column : 0) +
+            oldLines[oldLines.length - lines.length].length -
+            lines[0].length
+          : this.yylloc.first_column - len,
+      };
+
+      if (this.options.ranges) {
+        this.yylloc.range = [r[0], r[0] + this.yyleng - len];
+      }
+      this.yyleng = this.yytext.length;
+      return this;
+    },
+
+    // When called from action, caches matched text and appends it on next action
+    more: function () {
+      this._more = true;
+      return this;
+    },
+
+    // When called from action, signals the lexer that this rule fails to match the input, so the next matching rule (regex) should be tested instead.
+    reject: function () {
+      if (this.options.backtrack_lexer) {
+        this._backtrack = true;
+      } else {
+        return this.parseError(
+          'Lexical error on line ' +
+            (this.yylineno + 1) +
+            '. You can only invoke reject() in the lexer when the lexer is of the backtracking persuasion (options.backtrack_lexer = true).\n' +
+            this.showPosition(),
+          {
+            text: '',
+            token: null,
+            line: this.yylineno,
+          }
+        );
+      }
+      return this;
+    },
+
+    // retain first n characters of the match
+    less: function (n) {
+      this.unput(this.match.slice(n));
+    },
+
+    // displays already matched input, i.e. for error messages
+    pastInput: function () {
+      var past = this.matched.substr(
+        0,
+        this.matched.length - this.match.length
+      );
+      return (
+        (past.length > 20 ? '...' : '') + past.substr(-20).replace(/\n/g, '')
+      );
+    },
+
+    // displays upcoming input, i.e. for error messages
+    upcomingInput: function () {
+      var next = this.match;
+      if (next.length < 20) {
+        next += this._input.substr(0, 20 - next.length);
+      }
+      return (next.substr(0, 20) + (next.length > 20 ? '...' : '')).replace(
+        /\n/g,
+        ''
+      );
+    },
+
+    // displays the character position where the lexing error occurred, i.e. for error messages
+    showPosition: function () {
+      var pre = this.pastInput();
+      var c = new Array(pre.length + 1).join('-');
+      return pre + this.upcomingInput() + '\n' + c + '^';
+    },
+
+    // test the lexed token: return FALSE when not a match, otherwise return token
+    test_match: function (match, indexed_rule) {
+      var token, lines, backup;
+
+      if (this.options.backtrack_lexer) {
+        // save context
+        backup = {
+          yylineno: this.yylineno,
+          yylloc: {
+            first_line: this.yylloc.first_line,
+            last_line: this.last_line,
+            first_column: this.yylloc.first_column,
+            last_column: this.yylloc.last_column,
+          },
+          yytext: this.yytext,
+          match: this.match,
+          matches: this.matches,
+          matched: this.matched,
+          yyleng: this.yyleng,
+          offset: this.offset,
+          _more: this._more,
+          _input: this._input,
+          yy: this.yy,
+          conditionStack: this.conditionStack.slice(0),
+          done: this.done,
+        };
+        if (this.options.ranges) {
+          backup.yylloc.range = this.yylloc.range.slice(0);
+        }
+      }
+
+      lines = match[0].match(/(?:\r\n?|\n).*/g);
+      if (lines) {
+        this.yylineno += lines.length;
+      }
+      this.yylloc = {
+        first_line: this.yylloc.last_line,
+        last_line: this.yylineno + 1,
+        first_column: this.yylloc.last_column,
+        last_column: lines
+          ? lines[lines.length - 1].length -
+            lines[lines.length - 1].match(/\r?\n?/)[0].length
+          : this.yylloc.last_column + match[0].length,
+      };
+      this.yytext += match[0];
+      this.match += match[0];
+      this.matches = match;
+      this.yyleng = this.yytext.length;
+      if (this.options.ranges) {
+        this.yylloc.range = [this.offset, (this.offset += this.yyleng)];
+      }
+      this._more = false;
+      this._backtrack = false;
+      this._input = this._input.slice(match[0].length);
+      this.matched += match[0];
+      token = this.performAction.call(
+        this,
+        this.yy,
+        this,
+        indexed_rule,
+        this.conditionStack[this.conditionStack.length - 1]
+      );
+      if (this.done && this._input) {
+        this.done = false;
+      }
+      if (token) {
+        return token;
+      } else if (this._backtrack) {
+        // recover context
+        for (var k in backup) {
+          this[k] = backup[k];
+        }
+        return false; // rule action called reject() implying the next rule should be tested instead.
+      }
+      return false;
+    },
+
+    // return next match in input
+    next: function () {
+      if (this.done) {
+        return this.EOF;
+      }
+      if (!this._input) {
+        this.done = true;
+      }
+
+      var token, match, tempMatch, index;
+      if (!this._more) {
+        this.yytext = '';
+        this.match = '';
+      }
+      var rules = this._currentRules();
+      for (var i = 0; i < rules.length; i++) {
+        tempMatch = this._input.match(this.rules[rules[i]]);
+        if (tempMatch && (!match || tempMatch[0].length > match[0].length)) {
+          match = tempMatch;
+          index = i;
+          if (this.options.backtrack_lexer) {
+            token = this.test_match(tempMatch, rules[i]);
+            if (token !== false) {
+              return token;
+            } else if (this._backtrack) {
+              match = false;
+              continue; // rule action called reject() implying a rule MISmatch.
+            } else {
+              // else: this is a lexer rule which consumes input without producing a token (e.g. whitespace)
+              return false;
+            }
+          } else if (!this.options.flex) {
+            break;
+          }
+        }
+      }
+      if (match) {
+        token = this.test_match(match, rules[index]);
+        if (token !== false) {
+          return token;
+        }
+        // else: this is a lexer rule which consumes input without producing a token (e.g. whitespace)
+        return false;
+      }
+      if (this._input === '') {
+        return this.EOF;
+      } else {
+        return this.parseError(
+          'Lexical error on line ' +
+            (this.yylineno + 1) +
+            '. Unrecognized text.\n' +
+            this.showPosition(),
+          {
+            text: '',
+            token: null,
+            line: this.yylineno,
+          }
+        );
+      }
+    },
+
+    // return next match that has a token
+    lex: function lex() {
+      var r = this.next();
+      if (r) {
+        return r;
+      } else {
+        return this.lex();
+      }
+    },
+
+    // activates a new lexer condition state (pushes the new lexer condition state onto the condition stack)
+    begin: function begin(condition) {
+      this.conditionStack.push(condition);
+    },
+
+    // pop the previously active lexer condition state off the condition stack
+    popState: function popState() {
+      var n = this.conditionStack.length - 1;
+      if (n > 0) {
+        return this.conditionStack.pop();
+      } else {
+        return this.conditionStack[0];
+      }
+    },
+
+    // produce the lexer rule set which is active for the currently active lexer condition state
+    _currentRules: function _currentRules() {
+      if (
+        this.conditionStack.length &&
+        this.conditionStack[this.conditionStack.length - 1]
+      ) {
+        return this.conditions[
+          this.conditionStack[this.conditionStack.length - 1]
+        ].rules;
+      } else {
+        return this.conditions['INITIAL'].rules;
+      }
+    },
+
+    // return the currently active lexer condition state; when an index argument is provided it produces the N-th previous condition state, if available
+    topState: function topState(n) {
+      n = this.conditionStack.length - 1 - Math.abs(n || 0);
+      if (n >= 0) {
+        return this.conditionStack[n];
+      } else {
+        return 'INITIAL';
+      }
+    },
+
+    // alias for begin(condition)
+    pushState: function pushState(condition) {
+      this.begin(condition);
+    },
+
+    // return the number of states currently on the stack
+    stateStackSize: function stateStackSize() {
+      return this.conditionStack.length;
+    },
+    options: {},
+    performAction: function anonymous(
+      yy,
+      yy_,
+      $avoiding_name_collisions,
+      YY_START
+    ) {
+      var YYSTATE = YY_START;
+      switch ($avoiding_name_collisions) {
+        case 0 /* skip whitespace */:
+          break;
+        case 1:
+          return 8;
+          break;
+        case 2:
+          return 8;
+          break;
+        case 3:
+          return 21;
+          break;
+        case 4:
+          return 35;
+          break;
+        case 5:
+          return 24;
+          break;
+        case 6:
+          return 26;
+          break;
+        case 7:
+          return 26;
+          break;
+        case 8:
+          return 25;
+          break;
+        case 9:
+          return 21;
+          break;
+        case 10:
+          return 31;
+          break;
+        case 11:
+          return 31;
+          break;
+        case 12:
+          return 33;
+          break;
+        case 13:
+          return 28;
+          break;
+        case 14:
+          return 9;
+          break;
+        case 15:
+          return ' ';
+          break;
+        case 16:
+          return 32;
+          break;
+        case 17:
+          return 27;
+          break;
+        case 18:
+          return 29;
+          break;
+        case 19:
+          return 30;
+          break;
+        case 20:
+          return 18;
+          break;
+        case 21:
+          return 19;
+          break;
+        case 22:
+          return 17;
+          break;
+        case 23:
+          return 11;
+          break;
+        case 24:
+          return 20;
+          break;
+        case 25:
+          return 12;
+          break;
+        case 26:
+          return 13;
+          break;
+        case 27:
+          return 15;
+          break;
+        case 28:
+          return 14;
+          break;
+        case 29:
+          return 16;
+          break;
+        case 30:
+          return '"';
+          break;
+        case 31:
+          return "'";
+          break;
+        case 32:
+          return '!';
+          break;
+        case 33:
+          return 10;
+          break;
+        case 34:
+          return 34;
+          break;
+        case 35:
+          return '#';
+          break;
+        case 36:
+          return 5;
+          break;
+      }
+    },
+    rules: [
+      /^(?:\s+)/,
+      /^(?:"(\\["]|[^"])*")/,
+      /^(?:'(\\[']|[^'])*')/,
+      /^(?:[A-Za-z]{1,}[A-Za-z_0-9\.]+(?=[(]))/,
+      /^(?:#[A-Z0-9\/]+(!|\?)?)/,
+      /^(?:\$[A-Za-z]+\$[0-9]+)/,
+      /^(?:\$[A-Za-z]+[0-9]+)/,
+      /^(?:[A-Za-z]+\$[0-9]+)/,
+      /^(?:[A-Za-z]+[0-9]+)/,
+      /^(?:[A-Za-z\.]+(?=[(]))/,
+      /^(?:[A-Za-z]{1,}[A-Za-z_0-9]+)/,
+      /^(?:[A-Za-z_]+)/,
+      /^(?:[0-9]+)/,
+      /^(?:\[(.*)?\])/,
+      /^(?:&)/,
+      /^(?: )/,
+      /^(?:[.])/,
+      /^(?::)/,
+      /^(?:;)/,
+      /^(?:,)/,
+      /^(?:\*)/,
+      /^(?:\/)/,
+      /^(?:-)/,
+      /^(?:\+)/,
+      /^(?:\^)/,
+      /^(?:\()/,
+      /^(?:\))/,
+      /^(?:>)/,
+      /^(?:<)/,
+      /^(?:NOT\b)/,
+      /^(?:")/,
+      /^(?:')/,
+      /^(?:!)/,
+      /^(?:=)/,
+      /^(?:%)/,
+      /^(?:[#])/,
+      /^(?:$)/,
+    ],
+    conditions: {
+      INITIAL: {
+        rules: [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+        ],
+        inclusive: true,
+      },
+    },
+  };
+  return lexer;
+})();
+parser.lexer = lexer;
+function Parser() {
+  this.yy = {};
+}
+Parser.prototype = parser;
+parser.Parser = Parser;
+
 
 /***/ }),
 /* 41 */
@@ -20486,7 +21378,9 @@ var grammarParser = (function(){
 
 exports.__esModule = true;
 exports.trimEdges = trimEdges;
+
 /* eslint-disable import/prefer-default-export */
+
 /**
  * Trim value by cutting character starting from the beginning and ending at the same time.
  *
@@ -20496,9 +21390,7 @@ exports.trimEdges = trimEdges;
  */
 function trimEdges(string) {
   var margin = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-
   string = string.substring(margin, string.length - margin);
-
   return string;
 }
 
