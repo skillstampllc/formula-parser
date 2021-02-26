@@ -16641,7 +16641,12 @@ var Parser = /*#__PURE__*/function (_Emitter) {
             ex = e2;
           }
         } else if (expression.includes('IF')) {
-          expression = expression.replace(new RegExp(/IF\((.*),(.*),(.*)\)/), 'IF("$1","$2","$3")');
+          var match = expression.match(new RegExp(/IF\((.*),(.*),(.*)\)/));
+
+          for (var _i = 0, _arr = [1, 2, 3]; _i < _arr.length; _i++) {
+            i = _arr[_i];
+            expression = expression.replace(match[i], "\"".concat(match[i].replaceAll('"', "'"), "\""));
+          }
 
           try {
             result = this.parser.parse(expression);
@@ -16653,10 +16658,10 @@ var Parser = /*#__PURE__*/function (_Emitter) {
             ex = e2;
           }
         } else if (expression.includes('FORMULATEXT')) {
-          var match = expression.match(/FORMULATEXT\((.*)\)/);
+          var _match = expression.match(/FORMULATEXT\((.*)\)/);
 
-          if (match && match[1] && typeof match[1] === 'string') {
-            var paramsFormula = this.getFunction('GETFORMULA') && this.getFunction('GETFORMULA')(match[1]) || null;
+          if (_match && _match[1] && typeof _match[1] === 'string') {
+            var paramsFormula = this.getFunction('GETFORMULA') && this.getFunction('GETFORMULA')(_match[1]) || null;
             ex = null;
             result = null;
 

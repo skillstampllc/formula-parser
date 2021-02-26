@@ -104,10 +104,13 @@ class Parser extends Emitter {
           ex = e2;
         }
       } else if (expression.includes('IF')) {
-        expression = expression.replace(
-          new RegExp(/IF\((.*),(.*),(.*)\)/),
-          'IF("$1","$2","$3")'
-        );
+        let match = expression.match(new RegExp(/IF\((.*),(.*),(.*)\)/));
+        for (i of [1, 2, 3]) {
+          expression = expression.replace(
+            match[i],
+            `"${match[i].replaceAll('"', "'")}"`
+          );
+        }
         try {
           result = this.parser.parse(expression);
 
