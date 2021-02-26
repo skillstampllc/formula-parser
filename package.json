@@ -2,7 +2,7 @@
   "name": "hot-formula-parser",
   "version": "4.0.0",
   "description": "Formula parser",
-  "main": "lib/index.js",
+  "main": "es/index.js",
   "module": "es/index.js",
   "jsnext:main": "es/index.js",
   "jsdelivr": "dist/formula-parser.min.js",
