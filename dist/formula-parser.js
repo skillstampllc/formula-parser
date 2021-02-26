@@ -16644,7 +16644,7 @@ var Parser = /*#__PURE__*/function (_Emitter) {
           var match = expression.match(new RegExp(/IF\((.*),(.*),(.*)\)/));
 
           for (var _i = 0, _arr = [1, 2, 3]; _i < _arr.length; _i++) {
-            i = _arr[_i];
+            var i = _arr[_i];
             expression = expression.replace(match[i], "\"".concat(match[i].replaceAll('"', "'"), "\""));
           }
 

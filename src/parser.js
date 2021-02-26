@@ -105,7 +105,7 @@ class Parser extends Emitter {
         }
       } else if (expression.includes('IF')) {
         let match = expression.match(new RegExp(/IF\((.*),(.*),(.*)\)/));
-        for (i of [1, 2, 3]) {
+        for (let i of [1, 2, 3]) {
           expression = expression.replace(
             match[i],
             `"${match[i].replaceAll('"', "'")}"`
