@@ -16629,7 +16629,12 @@ var Parser = /*#__PURE__*/function (_Emitter) {
         ex = e;
 
         if (expression.includes('IFERROR')) {
-          expression = expression.replace(new RegExp(/IFERROR\((.*),(.*)\)/), 'IFERROR("$1",$2)');
+          var match = expression.match(new RegExp(/IFERROR\((.*),(.*)\)/));
+
+          for (var _i = 0, _arr = [1, 2]; _i < _arr.length; _i++) {
+            var i = _arr[_i];
+            expression = expression.replace(match[i], '"'.concat(match[i].replaceAll('"', "'"), '"'));
+          }
 
           try {
             result = this.parser.parse(expression);
@@ -16641,11 +16646,11 @@ var Parser = /*#__PURE__*/function (_Emitter) {
             ex = e2;
           }
         } else if (expression.includes('IF')) {
-          var match = expression.match(new RegExp(/IF\((.*),(.*),(.*)\)/));
+          var _match = expression.match(new RegExp(/IF\((.*),(.*),(.*)\)/));
 
-          for (var _i = 0, _arr = [1, 2, 3]; _i < _arr.length; _i++) {
-            var i = _arr[_i];
-            expression = expression.replace(match[i], "\"".concat(match[i].replaceAll('"', "'"), "\""));
+          for (var _i2 = 0, _arr2 = [1, 2, 3]; _i2 < _arr2.length; _i2++) {
+            var _i3 = _arr2[_i2];
+            expression = expression.replace(_match[_i3], "\"".concat(_match[_i3].replaceAll('"', "'"), "\""));
           }
 
           try {
@@ -16658,10 +16663,10 @@ var Parser = /*#__PURE__*/function (_Emitter) {
             ex = e2;
           }
         } else if (expression.includes('FORMULATEXT')) {
-          var _match = expression.match(/FORMULATEXT\((.*)\)/);
+          var _match2 = expression.match(/FORMULATEXT\((.*)\)/);
 
-          if (_match && _match[1] && typeof _match[1] === 'string') {
-            var paramsFormula = this.getFunction('GETFORMULA') && this.getFunction('GETFORMULA')(_match[1]) || null;
+          if (_match2 && _match2[1] && typeof _match2[1] === 'string') {
+            var paramsFormula = this.getFunction('GETFORMULA') && this.getFunction('GETFORMULA')(_match2[1]) || null;
             ex = null;
             result = null;
 

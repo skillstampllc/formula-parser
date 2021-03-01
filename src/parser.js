@@ -91,10 +91,15 @@ class Parser extends Emitter {
     } catch (e) {
       ex = e;
       if (expression.includes('IFERROR')) {
-        expression = expression.replace(
-          new RegExp(/IFERROR\((.*),(.*)\)/),
-          'IFERROR("$1",$2)'
-        );
+        var match = expression.match(new RegExp(/IFERROR\((.*),(.*)\)/));
+
+        for (var _i = 0, _arr = [1, 2]; _i < _arr.length; _i++) {
+          var i = _arr[_i];
+          expression = expression.replace(
+            match[i],
+            '"'.concat(match[i].replaceAll('"', "'"), '"')
+          );
+        }
         try {
           result = this.parser.parse(expression);
           if (!result.error) {
