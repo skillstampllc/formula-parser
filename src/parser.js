@@ -93,13 +93,11 @@ class Parser extends Emitter {
       if (expression.includes('IFERROR')) {
         var match = expression.match(new RegExp(/IFERROR\((.*),(.*)\)/));
 
-        for (var _i = 0, _arr = [1, 2]; _i < _arr.length; _i++) {
-          var i = _arr[_i];
-          expression = expression.replace(
-            match[i],
-            '"'.concat(match[i].replaceAll('"', "'"), '"')
-          );
+        for (let i of [1, 2]) {
+          match[i] = `"${match[i].replaceAll('"', "'")}"`;
         }
+        expression = `IFERROR(${match[1]},${match[2]})`;
+
         try {
           result = this.parser.parse(expression);
           if (!result.error) {
@@ -111,11 +109,10 @@ class Parser extends Emitter {
       } else if (expression.includes('IF')) {
         let match = expression.match(new RegExp(/IF\((.*),(.*),(.*)\)/));
         for (let i of [1, 2, 3]) {
-          expression = expression.replace(
-            match[i],
-            `"${match[i].replaceAll('"', "'")}"`
-          );
+          match[i] = `"${match[i].replaceAll('"', "'")}"`;
         }
+        expression = `IF(${match[1]},${match[2]}, ${match[1]})`;
+
         try {
           result = this.parser.parse(expression);
 

@@ -16633,8 +16633,10 @@ var Parser = /*#__PURE__*/function (_Emitter) {
 
           for (var _i = 0, _arr = [1, 2]; _i < _arr.length; _i++) {
             var i = _arr[_i];
-            expression = expression.replace(match[i], '"'.concat(match[i].replaceAll('"', "'"), '"'));
+            match[i] = "\"".concat(match[i].replaceAll('"', "'"), "\"");
           }
+
+          expression = "IFERROR(".concat(match[1], ",").concat(match[2], ")");
 
           try {
             result = this.parser.parse(expression);
@@ -16650,8 +16652,10 @@ var Parser = /*#__PURE__*/function (_Emitter) {
 
           for (var _i2 = 0, _arr2 = [1, 2, 3]; _i2 < _arr2.length; _i2++) {
             var _i3 = _arr2[_i2];
-            expression = expression.replace(_match[_i3], "\"".concat(_match[_i3].replaceAll('"', "'"), "\""));
+            _match[_i3] = "\"".concat(_match[_i3].replaceAll('"', "'"), "\"");
           }
+
+          expression = "IF(".concat(_match[1], ",").concat(_match[2], ", ").concat(_match[1], ")");
 
           try {
             result = this.parser.parse(expression);
