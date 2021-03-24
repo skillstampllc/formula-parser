@@ -16655,7 +16655,7 @@ var Parser = /*#__PURE__*/function (_Emitter) {
             _match[_i3] = "\"".concat(_match[_i3].replaceAll('"', "'"), "\"");
           }
 
-          expression = "IF(".concat(_match[1], ",").concat(_match[2], ", ").concat(_match[1], ")");
+          expression = "IF(".concat(_match[1], ",").concat(_match[2], ", ").concat(_match[3], ")");
 
           try {
             result = this.parser.parse(expression);
