@@ -111,7 +111,7 @@ class Parser extends Emitter {
         for (let i of [1, 2, 3]) {
           match[i] = `"${match[i].replaceAll('"', "'")}"`;
         }
-        expression = `IF(${match[1]},${match[2]}, ${match[1]})`;
+        expression = `IF(${match[1]},${match[2]}, ${match[3]})`;
 
         try {
           result = this.parser.parse(expression);
