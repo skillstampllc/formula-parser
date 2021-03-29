@@ -1,4 +1,4 @@
-import formulajs from '@handsontable/formulajs';
+import formulajs from '@formulajs/formulajs';
 import SUPPORTED_FORMULAS from "./../../supported-formulas.mjs";
 import { ERROR_NAME } from "./../../error.mjs";
 export var SYMBOL = SUPPORTED_FORMULAS;
