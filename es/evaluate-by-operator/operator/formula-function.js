@@ -4,7 +4,7 @@ exports.__esModule = true;
 exports["default"] = func;
 exports.SYMBOL = void 0;
 
-var _formulajs = _interopRequireDefault(require("@handsontable/formulajs"));
+var _formulajs = _interopRequireDefault(require("@formulajs/formulajs"));
 
 var _supportedFormulas = _interopRequireDefault(require("./../../supported-formulas"));
 
